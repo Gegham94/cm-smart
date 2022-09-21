@@ -1,0 +1,101 @@
+.header-side{
+  position: relative;
+  padding: 26px 0 38px 48px;
+  height: 163px;
+  background-color: #FCFCFC;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  .center-side{
+    .charts-side{
+      display: flex;
+      flex-direction: column;
+      .chart-title{
+        color: #1B3131;
+        font-family: 'Montserrat', serif;
+        font-weight: 600;
+        font-size: 16px;
+        text-align: center;
+        margin: 0;
+      }
+      .charts-side-content{
+        display: flex;
+        gap: 25px;
+      }
+      .text-content{
+        display: flex;
+        flex-direction: column;
+        font-size: 16px;
+        font-weight: 500;
+        color: #1B3131;
+        span{
+          text-align: center;
+          font-weight: 500;
+          font-family: 'Montserrat', serif;
+        }
+      }
+      .chart{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  }
+
+  .left-side{
+    max-width: 550px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    .name-surname{
+      margin-bottom: 21px;
+      font-weight: 600;
+      font-size: 24px;
+      color: #11493E;
+      font-family: 'Montserrat', sans-serif;
+
+    }
+    .content{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .phone-side, .account-side, .upcoming-side {
+        display: flex;
+        flex-direction: column;
+        margin-right: 40px;
+        .title{
+          color: #949494;
+          font-size: 14px;
+          font-weight: 400;
+          margin-bottom: 10px;
+          font-family: 'Montserrat', sans-serif;
+
+        }
+        .main{
+          font-weight: 500;
+          color: #1B3131;
+          font-size: 16px;
+          margin: 0;
+          font-family: 'Montserrat', sans-serif;
+
+        }
+      }
+    }
+  }
+}
+.chart-title{
+  font-family: 'Montserrat', serif;
+  font-weight: 500;
+  font-size: 14px;
+  margin: 5px 0;
+}
+.image{
+  max-width: 345px;
+  width: 100%;
+  margin-top: 20px;
+  @media screen and (max-width: 1100px) {
+    display: none;
+  }
+}

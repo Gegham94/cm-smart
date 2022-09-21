@@ -1,0 +1,156 @@
+<div class="dialog">
+    <header>
+        <h2 class="date">{{data.day | date:"dd/MM/YYYY"}}</h2>
+        <img src="assets/icons/content-icons/close.svg" alt="close" mat-dialog-close="" class="close">
+    </header>
+    <div class="content" *ngIf="data.events?.length || taskData.length else notFound">
+        <h2 class="title">Tasks</h2>
+        <div class="tasks scroll">
+            <div class="task" *ngFor="let task of taskData">
+                <div class="checkbox" (click)="spentTimeTask(task.id)">
+                    <container-element [ngSwitch]="task.status">
+                        <img src="assets/icons/content-icons/unchecked-v.svg" alt="checkbox" *ngSwitchCase="0">
+                        <img src="assets/icons/content-icons/checked-v.svg" alt="checked" *ngSwitchCase="1">
+                        <span class="task-checkbox-content" *ngSwitchCase="2">
+                            <img src="assets/icons/content-icons/failed1.svg" alt="checked">
+                        </span>
+                    </container-element>
+                </div>
+                <div class="texts">
+                    <span class="title">{{task.title}}</span>
+                    <div class="d-flex break-spaces">
+                        <!-- planned time-->
+                        <span class="day">{{task.planned_time < 60 ? task.planned_time + 'minute' : task.planned_time < 240 ? task.planned_time / 60 + ' hours' : task.planned_time === 240 ? 'Half day' : 'Full day'}}</span>
+                        <span class="day" *ngIf="task.status === 1"> | {{task.spent_time < 60?task.spent_time +'minute':task.spent_time < 240?task.spent_time / 60 + ' hours':task.spent_time === 240?'Half day':'Full day'}}</span>
+                        <span class="badge" *ngIf="task.project_id">{{data.projects[task.project_id]}}</span>
+                    </div>
+                </div>
+                <span class="dropdown-menu-task" *ngIf="!isOldTask(task.due_date)">
+                    <button [matMenuTriggerFor]="menu" class="menu-btn"><img
+                            src="assets/icons/content-icons/menu-point.svg" alt="menu"></button>
+                    <mat-menu #menu="matMenu" xPosition="before">
+                        <button *ngIf="!task.status" (click)="openUpdateTask(task.id)" class="menu-item" mat-menu-item>Edit</button>
+                        <button class="menu-item" (click)="deleteTask(task.id)" mat-menu-item>Delete</button>
+                    </mat-menu>
+                </span>
+            </div>
+            <h6 class="not-found-text" *ngIf="!taskData.length">There is no tasks</h6>
+        </div>
+        <h2 class="title">Events</h2>
+        <div class="events scroll">
+            <div class="event" *ngFor="let event of eventsData">
+                <div class="badge" [style.background-color]="event.color.primary"></div>
+                <div class="event-content">
+                    <h3 class="title">{{event.title}}</h3>
+                    <div class="date">
+                        <img src="assets/icons/event-photos/calendar.svg" alt="">
+                        <span>{{event.start | date:"MMMM dd, YYYY | HH:mm"}} - {{event.to | date:"HH:mm"}}</span>
+                    </div>
+                </div>
+                <span class="both"></span>
+            </div>
+            <h6 class="not-found-text" *ngIf="!eventsData.length">There is no events</h6>
+        </div>
+        <h2 class="title">Vacations</h2>
+        <div class="book-leaves scroll">
+            <div class="book-leave" *ngFor="let leave of vacationData">
+                <div class="left">
+                    <div class="photo"><img
+                            onerror="this.onerror=null;this.src='assets/icons/profile-images/profile-image.png'"
+                            src="{{leave.photo}}" alt="photo"></div>
+                    <div class="text">
+                        <h4>{{leave.employee_name}}</h4>
+                        <span>{{leave.start | date:"MMM dd, YYYY"}} - {{leave.to | date:"MMM dd, YYYY"}}</span>
+                    </div>
+                </div>
+                <!--todo There is no free day from database-->
+                <!-- [disabled]="!(leave.employee_id === employee_id)" (click)="openBookLeave(leave.id,leave.amount)"-->
+                <button class="edit" [disabled]="true"><img src="assets/icons/event-photos/edit.svg" alt="edit">
+                </button>
+            </div>
+            <h6 class="not-found-text" *ngIf="!vacationData.length">There is no vacations</h6>
+        </div>
+
+        <h2 class="title">Day offs</h2>
+        <div class="book-leaves scroll">
+            <div class="book-leave" *ngFor="let leave of dayOffData">
+                <div class="left">
+                    <div class="photo"><img
+                            onerror="this.onerror=null;this.src='assets/icons/profile-images/profile-image.png'"
+                            src="{{leave.photo}}" alt="photo"></div>
+                    <div class="text">
+                        <h4>{{leave.employee_name}}</h4>
+                        <span>{{leave.start | date:"MMM dd, YYYY"}}</span>
+                    </div>
+                </div>
+                <button class="edit" (click)="openBookLeave(leave.id)"
+                        [disabled]="!(leave.employee_id === employee_id)"><img src="assets/icons/event-photos/edit.svg"
+                                                                               alt="edit"></button>
+
+            </div>
+            <h6 class="not-found-text" *ngIf="!dayOffData.length">There is no day offs</h6>
+        </div>
+
+        <h2 class="title" >Hourly Leave</h2>
+        <div class="book-leaves scroll">
+            <div class="book-leave" *ngFor="let leave of hourlyLeaveData">
+                <div class="left">
+                    <div class="photo"><img
+                            onerror="this.onerror=null;this.src='assets/icons/profile-images/profile-image.png'"
+                            src="{{leave.photo}}" alt="photo"></div>
+                    <div class="text">
+                        <h4>{{leave.employee_name}}</h4>
+                        <span>{{leave.start | date:"MMM dd, YYYY"}} | {{leave.start | date:"HH:mm"}} - {{leave.to | date:"HH:mm"}}</span>
+                    </div>
+                </div>
+                <button class="edit" (click)="openBookLeave(leave.id)"
+                        [disabled]="!(leave.employee_id === employee_id)"><img src="assets/icons/event-photos/edit.svg"
+                                                                               alt="edit"></button>
+
+            </div>
+            <h6 class="not-found-text" *ngIf="!hourlyLeaveData.length">There is no hourly leave</h6>
+        </div>
+
+        <h2 class="title">Work remotely</h2>
+        <div class="book-leaves scroll">
+            <div class="book-leave" *ngFor="let leave of workRemotelyData">
+                <div class="left">
+                    <div class="photo"><img
+                            onerror="this.onerror=null;this.src='assets/icons/profile-images/profile-image.png'"
+                            src="{{leave.photo}}" alt="photo"></div>
+                    <div class="text">
+                        <h4>{{leave.employee_name}}</h4>
+                        <span>{{leave.start | date:"MMM dd, YYYY"}}</span>
+                    </div>
+                </div>
+                <button class="edit" (click)="openBookLeave(leave.id)"
+                        [disabled]="!(leave.employee_id === employee_id)"><img src="assets/icons/event-photos/edit.svg"
+                                                                               alt="edit"></button>
+
+            </div>
+            <h6 class="not-found-text" *ngIf="!workRemotelyData.length">There is no work remotely </h6>
+        </div>
+
+        <h2 class="title">Team Birthdays</h2>
+        <div class="book-leaves scroll">
+            <div class="book-leave" *ngFor="let leave of happyBirthdays">
+                <div class="left">
+                    <div class="photo"><img
+                            onerror="this.onerror=null;this.src='assets/icons/profile-images/profile-image.png'"
+                            src="{{leave.photo}}" alt="photo"></div>
+                    <div class="text">
+                        <h4>{{leave.employee_name}}</h4>
+                        <span>{{leave.start | date:"MMM dd, YYYY"}}</span>
+                    </div>
+                </div>
+            </div>
+            <h6 class="not-found-text" *ngIf="!happyBirthdays.length">There are no birthdays</h6>
+        </div>
+    </div>
+    <ng-template #notFound>
+        <div class="not-found">
+            <img src="assets/icons/not-found/calendar-day-detail-not-found.svg" alt="not-found">
+            <h5>There is nothing for today</h5>
+        </div>
+    </ng-template>
+</div>

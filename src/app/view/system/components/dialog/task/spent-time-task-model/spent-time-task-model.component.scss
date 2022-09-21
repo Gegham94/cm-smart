@@ -1,0 +1,189 @@
+.dialog-container{
+  position: relative;
+  margin: 28px 44px 34px 44px;
+}
+header{
+  position: relative;
+  margin-bottom: 36px;
+  display: flex;
+  justify-content: space-between;
+  .title{
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.25px;
+    color: #11493E;
+    margin: 0;
+  }
+  .close{
+    cursor: pointer;
+    position: relative;
+    width: 28px;
+    height: 28px;
+    opacity: 0.4;
+    transition: 300ms opacity;
+    &::after,&::before{
+      content: " ";
+      position: absolute;
+      left: 18px;
+      height: 21px;
+      width: 1px;
+      background-color: #333;
+    }
+    &::after{transform: rotate(-45deg);}
+    &::before{transform: rotate(45deg);}
+    &:hover{opacity: 1}
+  }
+}
+h3{
+  color: #616062;
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+
+footer{
+  margin-top: 36px;
+  button {
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    height: 32px;
+    background-color: #347474;
+    color: #FCFCFC;
+    line-height: 32px;
+    font-size: 14px;
+    outline: none;
+    transition: 300ms;
+    &:disabled{
+      background-color: rgb(52, 116, 116,0.8);
+      cursor: no-drop;
+    }
+  }
+}
+.container-radio{
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 15px 10px;
+}
+// The container
+.item {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  height: 32px;
+  margin: 0;
+  // Hide the browser's default radio button
+  input{
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    // When the radio button is checked, add a blue background
+    &:checked ~ .checkmark {
+      background-color: #347474;
+      color: #FCFCFC;
+      &:hover{
+        background-color: #2b6464;
+      }
+    }
+  }
+  &:hover input ~ .checkmark{
+    background-color: #347474;
+    color: #FCFCFC;
+  }
+}
+// Create a custom radio button
+.checkmark {
+  transition: 300ms;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: inherit;
+  min-width: 60px;
+  background-color: transparent;
+  border: 1px solid #347474;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #949494;
+  text-align: center;
+  line-height: 32px;
+}
+
+.loader-block{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  ::ng-deep.mat-progress-spinner{
+    width: 50px !important;
+    height: 90px !important;
+  }
+  ::ng-deep.mat-progress-spinner circle, .mat-spinner circle{
+    stroke: #11493e;
+  }
+  ::ng-deep.mat-progress-spinner svg{
+    width: 50px !important;
+  }
+}
+.opacity-0{opacity: 0 !important}
+
+.select-duration {
+  &__other {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 25px;
+
+    &-keeper {
+      margin-top: 25.49px;
+
+      article {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        letter-spacing: 0.25px;
+        color: #949494;
+        text-align: justify;
+
+        a {
+          color: #347474;
+          font-weight: 600;
+          cursor: pointer;
+        }
+      }
+    }
+
+    &-group {
+      display: flex;
+      gap: 4px;
+    }
+
+    &-separator {
+      width: 4px;
+      padding: 0;
+    }
+
+    &-input {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #347474;
+      border-radius: 4px;
+      letter-spacing: 0.25px;
+      color: #949494;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 16px;
+      text-align: center;
+      outline: none;
+      transition: color .15s ease-in-out;
+
+      &:focus {
+        color: #347474;
+      }
+    }
+  }
+}

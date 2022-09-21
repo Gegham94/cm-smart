@@ -1,0 +1,61 @@
+<div class="header-side">
+    <div class="left-side">
+        <p class="name-surname">Welcome {{userNameSurname}}</p>
+        <div class="content">
+            <div class="account-side" *ngIf="email">
+                <p class="title">Account email</p>
+                <p class="main">{{email}}</p>
+            </div>
+            <div class="upcoming-side" *ngIf="upcomingLeaveDate">
+                <p class="title">Your upcoming leave</p>
+                <p class="main">{{upcomingLeaveDate | date}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="center-side">
+        <div class="charts-side" *ngIf="taskFailChart.count || taskDoneChart.count">
+            <h3 class="chart-title">Week task</h3>
+            <div class="charts-side-content">
+                <div class="chart" *ngIf="taskFailChart.count">
+                    <ngx-charts-bar-vertical
+                            [view]="projectView"
+                            [results]="taskFailChart.single"
+                            [scheme]="taskFailChart.colorScheme"
+                            [legend]="false"
+                            [barPadding]="4"
+                            [animations]="true">
+                        <ng-template #tooltipTemplate let-model="model">
+                            <p class="chart-title">{{model.name}}</p>
+                            <p class="chart-title">{{model.value | number:'1.0-0'}}</p>
+                        </ng-template>
+                    </ngx-charts-bar-vertical>
+                    <span class="text-content">
+                                <span class="title">Fail</span>
+                                <span>{{taskFailChart.count}}</span>
+                            </span>
+                </div>
+                <div class="chart" *ngIf="taskDoneChart.count">
+                    <ngx-charts-bar-vertical
+                            [view]="projectView"
+                            [results]="taskDoneChart.single"
+                            [scheme]="taskDoneChart.colorScheme"
+                            [legend]="false"
+                            [barPadding]="4"
+                            [animations]="true">
+                        <ng-template #tooltipTemplate let-model="model">
+                            <p class="chart-title">{{model.name}}</p>
+                            <p class="chart-title">{{model.value | number:'1.0-0'}}</p>
+                        </ng-template>
+                    </ngx-charts-bar-vertical>
+                    <span class="text-content">
+                                <span class="title">Done</span>
+                                <span>{{taskDoneChart.count}}</span>
+                            </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right-side">
+        <img src="assets/icons/content-icons/chill-man.svg" alt="" class="image">
+    </div>
+</div>

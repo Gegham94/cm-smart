@@ -1,0 +1,17 @@
+<div class="main" *ngIf="!isLogedIn">
+  <div class="content">
+    <div class="main-image-side">
+      <div>
+        <h1>Manage your time</h1>
+        <p>Make your work more effectively</p>
+        <img *ngIf="router.url ==='/'; else resetPasswordMainImage" src="/assets/icons/main/main-login-person.svg" alt="">
+        <ng-template #resetPasswordMainImage>
+          <img src="/assets/icons/main/main-reset-password-person.svg" alt="">
+        </ng-template>
+      </div>
+    </div>
+    <div class="main-form-side">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

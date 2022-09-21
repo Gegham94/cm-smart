@@ -1,0 +1,147 @@
+.datepicker-range-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    margin-bottom: 15px;
+    button{
+      border: none;
+      outline: none;
+      background: transparent;
+      cursor: pointer;
+    }
+  }
+  .datepicker-range-header-label{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.25px;
+    color: #347474;
+  }
+  ::ng-deep.datepicker{
+    .mat-calendar{
+      height: 370px !important;
+      width: 100% !important;
+
+      mat-month-view {
+        width: 65%;
+      }
+    }
+    .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover >
+    .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical),
+    .cdk-keyboard-focused .mat-calendar-body-active>
+    .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical),
+    .cdk-program-focused .mat-calendar-body-active>
+    .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+      background: #E9F1F1 !important;
+    }
+    .ng-star-inserted{
+      overflow: hidden !important;
+    }
+    .mat-calendar-content{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .mat-calendar-table-header{
+      font-family: 'SF Pro Text', sans-serif;
+      line-height: 10px !important;
+      color: #347474 !important;
+      margin-top: 15px !important;
+      tr>th{
+        font-size: 12px !important;
+      }
+    }
+    .mat-calendar-table-header-divider{
+      display: none !important;
+    }
+    .mat-calendar-body-label{
+      padding: 0 !important;
+      margin: 0 !important;
+      opacity: 0 !important;
+      font-size: 0 !important;
+    }
+    .mat-calendar-body-selected{
+      background: #d4e9e9 !important;
+      color: #000000 !important;
+    }
+    .mat-calendar-body-in-range::before {
+      background: #d4e9e9 !important;
+    }
+    .mat-calendar-body-cell::before, .mat-calendar-body-cell::after, .mat-calendar-body-cell-preview {
+      height: 30px !important;
+    }
+    .mat-calendar-body-range-end::before{
+      left: -18px !important;
+    }
+    .mat-calendar-body-cell{
+      width: 55px !important;
+      height: 55px !important;
+    }
+    .mat-calendar-body-cell-content{
+      text-align: center;
+      font-weight: 600;
+      left: 20% !important;
+      width: 30px !important;
+      height: 30px !important;
+    }
+  }
+  .error{
+    color: #d6453d;
+    font-weight: 400;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+::ng-deep{
+  .example-custom-date-disabled-class {
+    .mat-calendar-body-cell-content{
+      opacity: 0.38;
+      pointer-events: none;
+    }
+    &::after{
+      cursor: default !important;
+    }
+  }
+  .example-custom-date-holiday-class{
+    .mat-calendar-body-cell-content{
+      color: #D6453D !important;
+    }
+  }
+}
+
+.loader-datepicker{
+  width: 100%;
+  height: 370px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ::ng-deep.mat-progress-spinner{
+    width: 50px !important;
+    height: 90px !important;
+  }
+  ::ng-deep.mat-progress-spinner circle, .mat-spinner circle{
+    stroke: #11493e;
+  }
+  ::ng-deep.mat-progress-spinner svg{
+    width: 50px !important;
+  }
+}
+.not-found{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  img{
+    margin-top: 45px;
+    margin-bottom: 25px;
+  }
+  h2{
+    color: #11493E;
+    font-weight: 600;
+    font-size: 18px;
+  }
+}

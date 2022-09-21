@@ -1,0 +1,42 @@
+<div class="content">
+  <div class="skill_container">
+
+    <div class="header">
+      <p class="content_title">Add new skill</p>
+      <a class="close_add_new_skill" (click)="closeAddNewSkill()"></a>
+    </div>
+
+    <div class="skill_input">
+      <form class="skills_form">
+        <input class="input_according_skill"
+          type="text"
+          placeholder="Add skill title"
+          [formControl]="control"
+          [matAutocomplete]="auto"
+          #arrowTrigger="matAutocompleteTrigger">
+          <i [ngClass]="{'up':arrowTrigger.panelOpen,'down':!arrowTrigger.panelOpen}" class="arrow"></i>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getSelectedOption($event.option)">
+          <mat-option *ngFor="let skill of filteredSkills | async" [value]="skill.name">
+            <img class="map_options_icon" src="{{skill.icon}}">
+            {{skill.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </form>
+    </div>
+
+    <div class="rate_skill">
+      <p class="rate_skill_text">Rate your skill</p>
+      <ngb-rating [max]="5" [(rate)]="currentSkillRate" [readonly]="false">
+        <ng-template let-fill="fill">
+          <span class="star" [class.filled]="fill===100">&#9733;</span>
+        </ng-template>
+      </ngb-rating>
+      <p class="test_text">or just pass <a href="https://docs.google.com/document" target="blank" class="pass_test">this test</a> which gives a reliable and extensive report about your skills level !</p>
+    </div>
+
+    <div class="add_skill_button">
+      <button class="add_btn">Add</button>
+    </div>
+
+  </div>
+</div>

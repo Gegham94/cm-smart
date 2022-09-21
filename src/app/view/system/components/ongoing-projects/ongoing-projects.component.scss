@@ -1,0 +1,134 @@
+.title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #1B3131;
+  display: block;
+  margin-bottom: 20px;
+
+  &_dropdown {
+    display: flex;
+    align-items: center;
+  }
+
+  &__dropdown {
+    &-arrow {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+.projects {
+  height: calc(100% - 50px);
+  max-width: 100%;
+  overflow: auto;
+  padding-right: 15px;
+  position: relative;
+
+  &::-webkit-scrollbar {
+    width: 1px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #DEDEDE;
+    border-radius: 20px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #949494;
+    border-radius: 20px;
+  }
+
+  &__employee-image {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 4px;
+    overflow: hidden;
+
+    &:not(:first-child) {
+      margin-left: -15px;
+    }
+  }
+}
+
+.mat-table {
+  background: transparent;
+}
+
+.mat-header-cell,
+.mat-cell {
+  display: table-cell;
+  min-width: 150px;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.25px;
+  color: #616062;
+}
+
+.mat-cell {
+  width: 100%;
+  font-weight: 400;
+}
+
+.mat-header-cell {
+  width: calc(100% - 24px);
+  font-weight: 600;
+}
+
+.mat-row,
+.mat-header-row {
+  display: table-row;
+}
+
+.loader-block {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  ::ng-deep.mat-progress-spinner {
+    width: 50px !important;
+    height: 90px !important;
+  }
+
+  ::ng-deep.mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #11493e;
+  }
+
+  ::ng-deep.mat-progress-spinner svg {
+    width: 50px !important;
+  }
+}
+
+.empty-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+::ng-deep {
+  .project-filter-menu {
+    transform-origin: top center !important;
+    margin-left: -45px;
+    background: #FFFFFF;
+    box-shadow: 0 0 10px rgb(0 0 0 / 25%);
+    border-radius: 8px !important;
+
+    .mat-menu-content {
+      padding: 0 !important;
+    }
+
+    .mat-menu-item {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0.25px;
+      color: #101010;
+      height: 42px;
+    }
+  }
+}

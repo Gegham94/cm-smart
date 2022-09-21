@@ -1,0 +1,303 @@
+<div [ngClass]="{'is-modal':isModalOpened}" class="events">
+    <div class="top-buttons">
+        <div class="create-side">
+            <button (click)="openModal()" class="create-event-btn">Create Event</button>
+        </div>
+
+        <div class="filter-side">
+            <div class="dropdown">
+                <button [ngClass]="{'remove-events':rotateEventsArrow}"  (click)="openAllEvents()" class="btn btn-secondary dropdown-toggle events-dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{selectedEventText}}
+                    <img [ngClass]="{'rotate-arrow': !rotateEventsArrow}"  class="dropdown-arrow" src="../../../../../../assets/icons/content-icons/arrow-top-dr.svg" alt="">
+                </button>
+                <div (window:mouseup)="autoCloseForEventDropDown($event)" [ngClass]="{'show-events-dropdown': showEventsDropDown}" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a [ngClass]="{'disable-event-btn': selectedEventText==='My events'}" (click)="selectWhoseEvent(1,'My events')" class="dropdown-item" href="javascript:void(0)">My events</a>
+                    <a [ngClass]="{'disable-event-btn': selectedEventText==='All events'}" (click)="selectWhoseEvent(0,'All events')" class="dropdown-item" href="javascript:void(0)">All events</a>
+                </div>
+
+            </div>
+            <div class="picker-side pointer" (click)="clickedCalendar()">
+                <img (click)="deleteFilters()" [ngClass]="{'show-delete': showDeleteBtn}" class="delete-filter" src="../../../../../../assets/icons/event-photos/delete.svg" alt="">
+
+                <mat-form-field id="picker-id"  (click)="picker.open()" appearance="fill">
+                    <img [ngClass]="{'rotate-arrow-1': !rotatePickerArrow}"  class="dropdown-arrow" src="../../../../../../assets/icons/content-icons/arrow-top-dr.svg" alt="">
+
+                    <mat-date-range-input [formGroup]="rangePicker" [rangePicker]="picker">
+                        <input formControlName="start" (dateChange)="startDateChange($event)" readonly matStartDate placeholder="Start date" class="pointer">
+                        <input formControlName="end" (dateChange)="endDateChange($event)" readonly matEndDate placeholder="End date" class="pointer">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker  (closed)="onClose()" #picker></mat-date-range-picker>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="loader;else eventContent" class="loader-block"><mat-spinner></mat-spinner></div>
+    <ng-template #eventContent>
+    <div class="nearest-container" *ngIf="nearbyEvent || pastEvents.length || upcomingEvents.length">
+        <span  class="nearest-text" *ngIf="nearbyEvent">Nearest Events</span>
+        <div *ngIf="nearbyEvent" class="nearest-blocks" >
+            <div class="do-something-side">
+                <div class="options">
+                    <div class="per-b" (mouseenter)="hoveredBlock($event)">
+                        <img  class="person-gr" src="../../../../../../assets/icons/event-photos/person-group.svg" alt="">
+                        <div class="participants-block">
+                            <div class="header">
+                                <span class="participant">Participants</span>
+                                <span class="count">{{nearbyEvent.total}}</span>
+                            </div>
+                            <div class="content">
+                                <div class="organizer-side">
+                                    <img onerror="this.src='../../.././../../../../assets/icons/event-photos/profile-icon-1.svg'" class="organizer-img" src="https://manage-company.app{{nearbyEvent.organizer.photo}}" alt="">
+                                    <p class="name-side">
+                                        <span class="name">{{nearbyEvent.organizer.name}}</span>
+                                        <span class="organizer">Organizer</span>
+                                    </p>
+                                </div>
+                                <div class="part-side">
+
+                                    <div *ngFor="let team of nearbyEvent.participants" (mouseleave)="left()" (mouseenter)="hovered(block)" class="team">
+                                        <div class="padding">
+                                            <span class="team-name">{{team.team}}</span>
+                                            <span class="participants">{{team.employees.length}} participants</span>
+                                            <img class="arrow" src="assets/icons/event-photos/right-arrow.svg" alt="">
+                                            <div [ngClass]="{'viewport':isNotVisible}" #block class="participants-1">
+                                                <div *ngFor="let emp of team.employees" class="employee">
+                                                    <div class="user-img"><img onerror="this.src='assets/icons/event-photos/profile-icon-1.svg'" src="https://manage-company.app{{emp.photo}}" alt=""></div>
+                                                    <span class="name-surname">{{emp.name}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <img [ngClass]="{'disable-edit-btn': nearbyEvent.organizer.id !== currentUser.employee_id}"  (click)="openEventEditModal(nearbyEvent)" src="../../../../../../assets/icons/event-photos/edit.svg" alt="" class="pointer">
+                </div>
+            </div>
+        <div (click)="openEventDetailsModal(nearbyEvent)" class="nearest">
+            <span class="start-time">Start <span class="start-times">{{nearbyEvent.start_date | date: 'HH:mm'}}</span></span>
+            <div class="photo-side">
+                <img onerror="this.src='../../.././../../../../assets/icons/event-photos/default-event.svg'" class="main-photo" src="https://manage-company.app{{nearbyEvent.photo}}" alt="">
+            </div>
+
+            <div class="text-side">
+                <span class="title">{{nearbyEvent.title}}</span>
+                <div class="organizer-side">
+                    <img class="option-img" src="../../../../../../assets/icons/event-photos/person.svg" alt="">
+                    <span class="organizer-name">Organizer - {{nearbyEvent.organizer.name}}</span>
+                </div>
+                <div class="date-side">
+                    <img class="option-img calendar" src="../../../../../../assets/icons/event-photos/calendar.svg" alt="">
+                <span class="options-t date">{{nearbyEvent.start_date | date: 'EEE, MMMM d, y'}}</span>
+                <span class="options-t hour">{{nearbyEvent.start_date | date: 'HH:mm'}} - {{nearbyEvent.end_date | date: 'HH:mm'}}</span>
+                <span class="options-t place">Brain Fors, {{nearbyEvent.room}}</span>
+                </div>
+                <div class="desc-side">
+                    <p class="desc">{{nearbyEvent.description}} </p>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="nearest-right-photo">
+            <div class="pie-chart" [hidden]="(eventsCount + teambuildingCount + meetingCount + trainingCount) === 0">
+                <ngx-charts-pie-chart
+                   *ngIf="pieChart"
+                   #chart
+                   [view]="pieChartView"
+                   [results]="pieChart?.single"
+                   [scheme]="pieChart?.colorScheme"
+                   [doughnut]="true"
+                   [legend]="true"
+                   [legendPosition]="'bellow'"
+                   [arcWidth]="0.20"
+                   [animations]="true"
+                   [legendTitle]="'Total '+ (eventChartCount + teambuildingCount + meetingCount + trainingCount)"
+                   [tooltipText]=""
+                   id="events-chart"
+                >
+                </ngx-charts-pie-chart>
+            </div>
+            <ul class="annual-list">
+                <li class="annual-list-li"><span class="annual-spans"><span class="color events-color"></span>Events</span> <span class="annual-spans">{{eventChartCount}}</span></li>
+                <li class="annual-list-li"><span class="annual-spans"><span class="color teambuilding-color"></span>Teambuilding</span> <span class="annual-spans">{{teambuildingCount}}</span></li>
+                <li class="annual-list-li"><span class="annual-spans"><span class="color meeting-color"></span>Meeting</span> <span class="annual-spans">{{meetingCount}}</span></li>
+                <li class="annual-list-li"><span class="annual-spans"><span class="color training-color"></span>Training</span> <span class="annual-spans">{{trainingCount}}</span></li>
+            </ul>
+        </div>
+        </div>
+        <ng-container *ngIf="upcomingEvents.length > 0">
+        <span class="upcoming-text">Upcoming Events</span>
+        <div class="bottom-blocks">
+            <div *ngFor = "let up of upcomingEvents" class="block-main">
+            <div (click)="openEventDetailsModal(up)" class="event-block">
+                <img class="block-img"  onerror="this.src='../../.././../../../../assets/icons/event-photos/default-event.svg'"  src="https://manage-company.app{{up.photo}}" alt="">
+                <div class="content">
+                    <span class="title">{{up.title}}</span>
+                    <div class="calendar-options">
+                    <div class="dates">
+                        <img class="icons" src="../../../../../../assets/icons/event-photos/calendar.svg" alt="">
+                        <span class="opt date">{{up.start_date | date}} </span>
+                        <span class="opt hour">{{up.start_date | date: 'HH:mm'}} - {{up.end_date | date: 'HH:mm'}}</span>
+                    </div>
+
+                     <div class="location">
+                        <img class="icons" src="../../../../../../assets/icons/event-photos/map.svg" alt="">
+                        <span class="place">Brain Fors | {{up.room}}</span>
+                    </div>
+                    <div class="desc">
+                        <p>{{up.description}}</p>
+                    </div>
+
+                    </div>
+
+
+                </div>
+                </div>
+                <div class="options">
+                    <div class="per-b" (mouseenter)="hoveredBlock($event)">
+                        <img  class="person-gr" src="../../../../../../assets/icons/event-photos/person-group.svg" alt="">
+                        <div class="participants-block">
+                            <div class="header">
+                                <span class="participant">Participants</span>
+                                <span class="count">{{up.total}}
+                                </span>
+                            </div>
+                            <div class="content">
+                                <div class="organizer-side">
+                                    <img onerror="this.src='../../.././../../../../assets/icons/event-photos/profile-icon-1.svg'" class="organizer-img" src="https://manage-company.app{{up.organizer.photo}}" alt="">
+                                    <p class="name-side">
+                                        <span class="name">{{up.organizer.name}}</span>
+                                        <span class="organizer">Organizer</span>
+                                    </p>
+                                </div>
+                                <div class="part-side">
+                                    <div *ngFor="let team of up.participants" (mouseleave)="left()" (mouseenter)="hovered(block)" class="team">
+                                        <div class="padding">
+                                            <span class="team-name">{{team.team}}</span>
+                                            <span class="participants">{{team.employees.length}} participants</span>
+                                            <img class="arrow" src="assets/icons/event-photos/right-arrow.svg" alt="">
+                                            <div [ngClass]="{'viewport':isNotVisible}" #block class="participants-1">
+                                                <div *ngFor="let emp of team.employees" class="employee">
+                                                    <div class="user-img"><img onerror="this.src='assets/icons/event-photos/profile-icon-1.svg'" src="https://manage-company.app{{emp.photo}}" alt=""></div>
+                                                    <span class="name-surname">{{emp.name}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <img [ngClass]="{'disable-edit-btn': up.organizer.id !== currentUser.employee_id}"  (click)="openEventEditModal(up)" src="../../../../../../assets/icons/event-photos/edit.svg" alt="">
+                </div>
+            </div>
+
+
+            <div class="event-block empty"></div>
+            <div class="event-block empty"></div>
+            <div class="event-block empty"></div>
+            <div class="event-block empty"></div>
+        </div>
+    </ng-container>
+        <ng-container *ngIf="pastEvents.length > 0">
+        <span class="past-text">Past Events</span>
+
+        <div class="past-events">
+            <ng-container *ngFor = "let past of pastEvents">
+            <div class="block-main">
+
+                <div  (click)="openEventDetailsModal(past)" class="event-block">
+                    <img class="block-img"  onerror="this.src='../../.././../../../../assets/icons/event-photos/default-event.svg'" src="https://manage-company.app{{past.photo}}" alt="">
+                    <div class="content">
+                        <span class="title">{{past.title}}</span>
+                        <div class="calendar-options">
+                            <div class="dates">
+                                <img class="icons" src="../../../../../../assets/icons/event-photos/calendar.svg" alt="">
+                                <span class="opt date">{{past.start_date | date: 'EEE, MMMM d, y'}} </span>
+                                <span class="opt hour">
+                                    {{past.start_date | date: 'HH:mm'}} -
+                                    {{past.end_date | date: 'HH:mm'}}
+                                </span>
+                            </div>
+
+                            <div class="location">
+                                <img class="icons" src="../../../../../../assets/icons/event-photos/map.svg" alt="">
+                                <span class="place">Brain Fors | {{past.room}}</span>
+                            </div>
+                            <div class="desc">
+                                <p>{{past.description}}</p>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="options">
+                    <div class="per-b" (mouseenter)="hoveredBlock($event)">
+                        <img  class="person-gr" src="../../../../../../assets/icons/event-photos/person-group.svg" alt="">
+                        <div class="participants-block">
+                            <div class="header">
+                                <span class="participant">Participants</span>
+                                <span class="count">{{past.total}}</span>
+                            </div>
+                            <div class="content">
+                                <div class="organizer-side">
+                                    <img onerror="this.src='../../.././../../../../assets/icons/event-photos/profile-icon-1.svg'" class="organizer-img" src="https://manage-company.app{{past.organizer.photo}}" alt="">
+                                    <p class="name-side">
+                                        <span class="name">{{past.organizer.name}}</span>
+                                        <span class="organizer">Organizer</span>
+                                    </p>
+                                </div>
+                                <div class="part-side">
+                                    <div *ngFor="let team of past.participants" (mouseleave)="left()"  (mouseenter)="hovered(block)" class="team">
+                                        <div class="padding">
+                                            <span class="team-name">{{team.team}}</span>
+                                            <span class="participants">{{team.employees.length}}  participants</span>
+                                            <img class="arrow" src="assets/icons/event-photos/right-arrow.svg" alt="">
+                                            <div [ngClass]="{'viewport':isNotVisible}" #block class="participants-1">
+                                                <div *ngFor="let emp of team.employees" class="employee">
+                                                    <div class="user-img"><img onerror="this.src='assets/icons/event-photos/profile-icon-1.svg'" src="https://manage-company.app{{emp.photo}}" alt=""></div>
+                                                    <span class="name-surname">{{emp.name}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+                    <img [ngClass]="{'disable-edit-btn': past.organizer.id !== currentUser.employee_id}"  (click)="openEventEditModal(past)" src="../../../../../../assets/icons/event-photos/edit.svg" alt="">
+                </div>
+            </div>
+
+        </ng-container>
+
+
+            <div class="event-block empty"></div>
+            <div class="event-block empty"></div>
+            <div class="event-block empty"></div>
+            <div class="event-block empty"></div>
+        </div>
+        </ng-container>
+
+
+    </div>
+        <div class="not-found" *ngIf="!(nearbyEvent || pastEvents.length || upcomingEvents.length)">
+            <img src="assets/icons/main/not-found-event.svg" alt="">
+            <h2>It’s Empty</h2>
+            <p>Look like you haven't added any new lead yet...!!!</p>
+            <button (click)="openModal()" class="create-event-btn">Create Event</button>
+        </div>
+    </ng-template>
+    <div class="empty-block"></div>
+</div>

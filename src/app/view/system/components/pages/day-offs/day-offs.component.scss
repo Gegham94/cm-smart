@@ -1,0 +1,493 @@
+$vacation: #83B7AD;
+$day-offs: #EF988F;
+$hours-leaved: #92BEFA;
+$work-remotely: #F9B04D;
+.day-offs::-webkit-scrollbar{
+  width: 8px;
+}
+.day-offs::-webkit-scrollbar-track{
+	box-shadow: inset 3px 2px 6px rgba(65, 64, 64, 0.37);
+	border-radius: 8px;
+	background-color: #F5F5F5;
+  margin: 0 !important;
+}
+.day-offs::-webkit-scrollbar-thumb{
+	border-radius: 5px;
+	box-shadow: inset 3px 2px 6px rgba(100, 100, 100, 0.3);
+	background-color: #11493E;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #DEDEDE;
+  margin-top: 56px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #949494; 
+  border-radius: 20px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+.content::-webkit-scrollbar{
+  width: 2px;
+  margin-top: 56px;
+}
+.work-remoatly{
+  background-color: $work-remotely;
+}
+.hourly-leave{
+  background-color: $hours-leaved;
+}
+.day-off{
+  background-color: $day-offs;
+}
+.vaccation-circle{
+  background-color: $vacation;
+}
+.scroll-class-vacation{
+  overflow-y: scroll;
+}
+.scroll-class-day-off{
+  overflow-y: scroll;
+}
+.talbe-hidden-class{
+  overflow: hidden;
+}
+.mat-row:hover{
+  cursor: pointer;
+  background: #66666627;
+}
+.day-offs{
+  padding-right: 18px;
+  height: 100%;
+  overflow-y: auto;
+  .top-block{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    flex-wrap: wrap;
+    .day-off-table{
+      &.full-height{
+        height: 425px !important;
+      }
+    }
+    .vaccation-block{
+      width: 100%;
+      min-height: 200px;
+      max-height: 425px;
+      .vaccation-table{
+        height: 100%;
+        border-radius: 4px;
+        overflow-y: scroll;
+        position: relative;
+        z-index: 0;
+        background-color: #FCFFFF;
+        padding-bottom: 5px;
+        ::ng-deep .day-off-table{
+          width: 100%;
+          box-shadow: none;
+          background-color: #FCFFFF;
+          min-width:200px;
+          max-height: 268px;
+          mat-row, mat-header-row, mat-footer-row, td.mat-cell, td.mat-footer-cell{ 
+            white-space: nowrap;
+            color: #616062;
+            font-size: 14px;
+            font-weight: 400;
+            vertical-align: baseline;
+            padding-top: 20px;
+            .circle{
+              width: 12px;
+              height: 12px;
+              border-radius: 50%; 
+              display: inline-block;
+              margin-right: 8px;
+              transform: translateY(1px);
+            }
+          }
+        }
+      }
+    }
+    .vacation-title{
+      font-size: 16px;
+      font-weight: 500;
+      color: #616062;
+      display: inline-block;
+      margin-top: 18px;
+      margin-bottom: 18px;
+    }
+  }
+  .booked-leave-block{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .booked-leave-title,.booked-leave-btn{
+      display: block;
+    }
+    .booked-leave-title{
+      color: #616062;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .booked-leave-btn{
+      background-color: #38A98E;
+      border-radius: 4px;
+      border:none;
+      width: 122px;
+      height: 32px;
+      color: white;
+      transition: all .5s;
+      &:hover{
+        background-color: #11493e;
+        cursor: pointer;
+      }
+      &:focus{
+        outline: none;
+      }
+    }
+  }
+  .day-off-cont{
+    max-height: 425px;
+    min-height: 268px;
+    height: 100%;
+    padding-bottom: 5px;
+    width: 66.6%;
+    border-radius: 4px;
+    overflow-y: scroll;
+    position: relative;
+    z-index: 0;
+    background-color: #FCFFFF;
+    overflow: hidden;
+    &.full-height{
+      height: 425px !important;
+    }
+    ::ng-deep .day-off-table{
+      width: 100%;
+      box-shadow: none;
+      background-color: #FCFFFF;
+      min-width:200px;
+      max-height: 425px;
+      &.full-height{height: 100%}
+      mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat-footer-cell{ 
+        padding-left: 15px;
+        white-space: nowrap;
+        color: #616062;
+        font-size: 14px;
+        font-weight: 400;
+        vertical-align: baseline;
+        padding-top: 20px;
+        .circle{
+          width: 12px;
+          height: 12px;
+          border-radius: 50%; 
+          display: inline-block;
+          margin-right: 8px;
+          transform: translateY(1px);
+        }
+      }
+    }
+  }
+  .leave-block{
+    width: 30%;
+    min-height: 268px;
+    background: #FCFFFF;
+    border-radius: 4px;
+    padding: 15px 25px;
+    position: relative;
+    .top-side{
+      .annual-live{
+        color: #616062;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 24px;
+        text-align: left;
+      }
+    }
+    .annual-list{
+      list-style-type: none;
+      padding: 0;
+      .anual-list-li{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .anual-spans{
+          display: block;
+          font-size: 14px;
+          color: #616062;
+          font-weight: 400;
+          padding-top: 15px;
+          .color{
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            border-radius: 2px;
+            margin-right: 15px;
+          }
+          .vacation-color{background-color: $vacation;}
+          .day-off-color{background-color: $day-offs;}
+          .hourly-leave-color{background-color: $hours-leaved;}
+          .work-remoatly-color{background-color: $work-remotely;}
+
+        }
+        .strong-span{
+          color: #347474;
+        }
+      }
+    }
+  }
+  .show-loader{
+    display: block !important;
+    z-index: 555 !important;
+  }
+  .loader-block{
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: #fcffffb3;
+    display: none;
+    left: 0;
+    top: 0;
+    ::ng-deep.mat-progress-spinner{
+    width: 50px !important;
+    height: 90px !important;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    }
+    ::ng-deep.mat-progress-spinner circle, .mat-spinner circle{
+      stroke: #11493e;
+    }
+    ::ng-deep.mat-progress-spinner svg{
+      width: 50px !important;
+    }
+
+  }
+
+  @media(max-width:1413px){
+    .vaccation-table{
+      overflow-x: scroll !important;
+    }
+  }
+  @media(max-width:1290px){
+    .leave-block{
+      width: 40%;
+    }
+    .day-off-cont{
+      width: 57.6%;
+  }
+  }
+  @media(max-width:1120px){
+    .leave-block{
+      width: 100%;
+      margin-top: 15px;
+    }
+    .top-block{
+      flex-direction: column;
+    }
+    .day-off-cont{
+      width: 100%;
+    }
+    .vaccation-block{
+      width: 100% !important;
+    }
+  }
+}
+.day-offs ::ng-deep {
+  tr.mat-header-row{
+    height: 46px;
+  }
+  .mat-table-sticky-border-elem-top{
+    font-size: 14px !important;
+    font-weight: 600 !important;
+  }
+  .type-column{
+    width: 165px !important;
+  }
+}
+.mat-column-Description{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+  width: 30%;
+}
+.pie-chart{
+  ::ng-deep{
+    .ngx-charts-outer{
+      width: 100% !important;
+      display: flex;
+      flex-direction: column;
+    }
+    .ngx-charts{
+      margin: 0 auto;
+    }
+    .chart-legend div{
+      width: 100% !important;
+    }
+    .legend-title-text{
+      width: 100%;
+      position: absolute;
+      left: 0;
+      top: calc(50% - 10px);
+      font-size: 16px;
+      text-align: center;
+      font-weight: 600;
+    }
+    .legend-wrap{
+      display: none;
+    }
+  }
+}
+#day-off-chart-pie{
+ position: relative;
+}
+.not-found{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #616062;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  overflow: hidden;
+  h2{
+    font-family: 'Montserrat', serif;
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  p{
+    font-family: 'Montserrat', serif;
+    font-size: 14px;
+  }
+}
+.hidden{
+  overflow: hidden;
+  height: 0;
+  width: 0;
+  opacity: 0 !important;
+}
+.calendar-filter{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  color: #fcfcfc;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: #347474;
+  width: auto;
+  height: 28px;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  transition: 300ms;
+  min-width: 28px;
+  img{width: 16px}
+  &:hover{background-color: #2b6464}
+  &:active{background-color: #408b8b}
+  &.active{padding-right: 36px}
+  .reset-filter{
+    width: 29px;
+    position: absolute;
+    top: -2px;
+    height: inherit;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &.active::after{transition: none}
+    &::after {
+      content: "";
+      display: inline-block;
+      color: #fff;
+      border: 4px solid transparent;
+      border-top: 4px solid;
+      border-right: 4px solid;
+      right: 20px;
+      top: 10px;
+      pointer-events: none;
+      transform: rotate(135deg);
+      transition: transform 300ms;
+    }
+    &.open{
+      &::after{
+        transform: rotate(315deg) translate(-3px, 4px);
+      }
+    }
+    &.active:hover{
+      top: 0;
+      background-color: #479595;
+      &::after{
+        content: "";
+        border: none;
+        width: 10px;
+        height: 1px;
+        background-color: #fff;
+        transform: rotate(45deg);
+      }
+      &::before{
+        content: "";
+        width: 10px;
+        height: 1px;
+        position: absolute;
+        background-color: #fff;
+        transform: rotate(-45deg);
+      }
+    }
+  }
+}
+.filter-container{
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  margin-top: 10px;
+  margin-right: 22px;
+}
+.filtered-leave-btn{
+  padding-right: 36px;
+  padding-left: 14px;
+  margin-left: 16px;
+  font-size: 16px;
+  font-weight: 500;
+}
+::ng-deep{
+  .mat-form-field-appearance-fill .mat-form-field-flex{
+    background-color: transparent;
+  }
+  .mat-calendar-body-selected{
+    background-color: #347474;
+  }
+  .mat-calendar-body-in-range::before{
+    background-color: #E9F1F1;
+  }
+
+  .mat-calendar-body-cell:hover{
+    .mat-calendar-body-cell-content{
+      background-color: #347474 !important;
+      color: white !important;
+    }
+  }
+  .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical){
+    background-color: #F8F7FA !important;
+    border: none;
+    color: #347474 !important;
+  }
+}

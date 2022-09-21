@@ -1,0 +1,6 @@
+<div class="sidenavElementContent" [ngClass]="{'hide-background':hideItem}" (click)="openChild()">
+  <div class="sidenavElement" [routerLink]="item.route" [ngClass]="{'arrow open':item.isOpen,'hide-background':hideItem}">
+    <img class="item-icon-main" [ngClass]="{'item-icon':hideItem,'item-icon-active':item.isOpen && hideItem}" [src]="item.iconPath">
+    <span class="sidenav-item-name" [ngClass]="{'none-item':hideItem}">{{item.name}}</span>
+  </div>
+</div>

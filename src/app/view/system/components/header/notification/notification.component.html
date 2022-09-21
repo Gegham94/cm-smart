@@ -1,0 +1,39 @@
+<div class="dropdown container-notification">
+    <button (click)="showNotification()" type="button" class="dropdown-notification">
+        <span>
+            <span><img src="assets/icons/main/notification.svg" alt="notification"></span>
+            <span class="badge-md" *ngIf="notificationPoint"></span>
+        </span>
+    </button>
+    <div (window:mouseup)="autoCloseForEventDropDown($event)" [hidden]="!isOpen" class="content dropdown-notification">
+        <h4>Notifications</h4>
+        <span class="line"></span>
+        <ng-template [ngIf]="notificationData.length !== 0" [ngIfElse]="content">
+            <div class="item" *ngFor="let item of notificationData;let i = index" [ngClass]="{'not-read':!item.status}">
+                <div class="for-click" (click)="read(i,item.status)"></div>
+                <div class="avatar">
+                    <span [style.background-image]="['url(https://manage-company.app',item.sender.photo].join('')"></span>
+                </div>
+                <div>
+                    <div class="row">
+                        <span class="name">{{item.sender.name}}</span>
+                        <span class="title">{{item.title}}</span>
+                    </div>
+                    <div class="row">
+                        <span class="date">{{moment(item.date).isValid()? (moment().diff(item.date, 'days') !== 0? (item.date | date:"short") : (moment(item.date).fromNow())):"Date is not valid"}}</span>
+                    </div>
+                    <span class="delete" (click)="delete(i)"><img src="assets/icons/content-icons/close.svg" alt="delete"></span>
+                </div>
+                <span style="clear: both"></span>
+            </div>
+        </ng-template>
+        <ng-template #content>
+            <span class="empty">
+                <img src="assets/icons/not-found/notification-not-found.svg" alt="not found">
+                <h2>No Notification</h2>
+            </span>
+        </ng-template>
+    </div>
+</div>
+
+

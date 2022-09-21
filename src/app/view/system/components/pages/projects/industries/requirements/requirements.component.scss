@@ -1,0 +1,111 @@
+.content::-webkit-scrollbar{
+    width: 8px;
+  }
+  .content::-webkit-scrollbar-track{
+      box-shadow: inset 3px 2px 6px rgba(65, 64, 64, 0.37);
+      border-radius: 8px;
+      background-color: #F5F5F5;
+  }
+  .content::-webkit-scrollbar-thumb{
+      border-radius: 5px;
+      box-shadow: inset 3px 2px 6px rgba(100, 100, 100, 0.3);
+      background-color: #11493E;
+  }
+  .content{
+    height: 100%;
+    overflow-y: auto;
+  }
+  .tabs{
+    display: flex;
+    margin: 27px 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    .tab{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 160px;
+      height: 50px;
+      color: #688C8C;
+      margin: 0 23px 0 23px;
+      border-radius: 12px;
+      opacity: 0.8;
+    }
+    .tab:hover{
+      background: #599797;
+      color: #272525;
+      cursor: pointer;
+    }
+  }
+  .medium-content{
+    margin-left: 39px;
+    margin-right: 38px;
+    margin-bottom: 50px;
+    padding-top: 50px;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0px 4px 4px #E5E5E5;
+    height: 70%;
+    min-height: 600px;
+    .list-content{
+      display: flex;
+      flex-wrap: wrap;
+      margin-left: 31.2px;
+      padding-right: 27;
+      .skills{
+        border: 1px solid #6868684f;
+        border-radius: 5px;
+        min-height: 57px;
+        min-width: 460px;
+        width: 47%;
+        margin-bottom: 60px;
+        margin-right: 27px;
+      }
+      .item{
+        position: relative;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #6868684f;
+        border-radius: 5px;
+        width: 460px;
+        height: 57px;
+        margin-bottom: 60px;
+        margin-right: 28px;
+        select{
+          width: 99%;
+          height: 94%;
+          border: none;
+          outline: none;
+          appearance: none;
+        }
+        .arrow{
+          position: absolute;
+          display: inline-block;
+          color: #979797;
+          border: 5px solid transparent;
+          border-top: 5px solid;
+          border-right: 5px solid;
+          transform: rotate(135deg);
+          right: 10px;
+          pointer-events: none;
+        }
+        label{
+          position: absolute;
+          top: -10px;
+          left: 10px;
+          background-color: #FFFFFF;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 12px;
+          padding: 0 3px;
+          font-family: 'Inter', sans-serif;
+          color: #263238;
+        }
+      }
+    }
+  }

@@ -1,0 +1,174 @@
+<div class="day-offs" id="day-offs-content">
+  <div class="booked-leave-block">
+    <span class="booked-leave-title">Booked leave</span>
+    <button class="booked-leave-btn" (click)="openBookLeave()">Book leave</button>
+  </div>
+
+  <div class="top-block">
+
+    <div class="day-off-cont">
+      <div class="filter-container" *ngIf="leavesDataSource.length">
+        <button [matMenuTriggerFor]="menu" class="calendar-filter filtered-leave-btn" #t="matMenuTrigger" [ngClass]="{'active': leaveFilteredBy}">
+          {{leaveFilteredBy ? (leaveFilteredBy.charAt(0) | uppercase)  + (leaveFilteredBy.slice(1) | lowercase): 'Filtered by'}}
+          <span class="toggle reset-filter" (click)="resetFilter()" [ngClass]="{active: leaveFilteredBy, open: t.menuOpen}"></span>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item (click)="setFilterLeave('Day Off')">Day off</button>
+          <button mat-menu-item (click)="setFilterLeave('Work Remotely')">Work remotely</button>
+          <button mat-menu-item (click)="setFilterLeave('Hourly Leave')">Hourly leave</button>
+        </mat-menu>
+
+        <mat-form-field appearance="fill" class="hidden">
+          <mat-date-range-input [formGroup]="rangeLeaveCalendarFilter" [rangePicker]="picker" [hidden]="true">
+            <input matStartDate formControlName="start" placeholder="Start date">
+            <input matEndDate formControlName="end" placeholder="End date" (dateChange)="setFilterLeave()">
+          </mat-date-range-input>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+        <button (click)="picker.open()" class="calendar-filter" [ngClass]="{'active':rangeLeaveCalendarFilter.valid}">
+          <img src="assets/icons/content-icons/filter-solid.svg" alt="filter" *ngIf="!rangeLeaveCalendarFilter.valid;else filterRange">
+          <ng-template #filterRange>
+            {{(rangeLeaveCalendarFilter.get("start")?.value | date:'dd/MM/YYYY') +' - '+ (rangeLeaveCalendarFilter.get("end")?.value | date:'dd/MM/YYYY')}}
+            <span class="toggle reset-filter active" (click)="resetCalendarFilter()"></span>
+          </ng-template>
+        </button>
+
+      </div>
+      <div class="day-off-table" [ngClass]="{'scroll-class-day-off': scrollClassDayOff,'talbe-hidden-class':!scrollClassDayOff,'full-height': annualTotalTitle + workRemotely + annualHoursLeave}">
+        <div [ngClass]="{'show-loader':!isDataGetted}" class="loader-block">
+          <mat-spinner></mat-spinner>
+        </div>
+        <table mat-table [dataSource]="leavesDataFiltered" *ngIf="leavesDataFiltered?.length ;else leavesNotFound" class="mat-elevation-z8 day-off-table">
+          <!-- Date Column -->
+          <ng-container matColumnDef="Date">
+            <th class="table-title" mat-header-cell *matHeaderCellDef> Date</th>
+            <td mat-cell *matCellDef="let element"> {{element.start_date}} </td>
+          </ng-container>
+        
+          <!-- Time Column -->
+          <ng-container matColumnDef="Time">
+            <th class="table-title" mat-header-cell *matHeaderCellDef> Time </th>
+            <td mat-cell *matCellDef="let element"> {{element.time}} </td>
+          </ng-container>
+        
+          <!-- Type Column -->
+          <ng-container matColumnDef="Type">
+            <th class="table-title type-column" mat-header-cell *matHeaderCellDef> Type </th>
+            <td mat-cell *matCellDef="let element"> <span class="circle" [ngClass]="{'day-off':element.type==='Day Off','hourly-leave':element.type==='Hourly Leave','work-remoatly':element.type==='Work Remotely'}"></span> {{element.type}} </td>
+          </ng-container>
+        
+          <!-- Amount Column -->
+          <ng-container matColumnDef="Amount">
+            <th class="table-title" mat-header-cell *matHeaderCellDef> Amount </th>
+            <td mat-cell *matCellDef="let element"> {{ element.amount.split('h')[0] >= 1 ? element.amount: element.amount.split('h')[0] * 60 + 'm' }} </td>
+          </ng-container>
+
+            <!-- Description Column -->
+          <ng-container matColumnDef="Description">
+            <th class="table-title" mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+          </ng-container>
+
+          <tr mat-header-row  *matHeaderRowDef="dayOffColumns sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: dayOffColumns;" (click)="openBookLeave(row.id)"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell no-data-td" colspan="9999">
+            No data to show
+            </td>
+          </tr>
+        </table>
+      </div>
+      <ng-template #leavesNotFound>
+        <div class="not-found" *ngIf="isDataGetted">
+          <img src="assets/icons/not-found/leaved-not-found.svg" alt="not-found">
+          <h2>It’s Empty</h2>
+          <p>Look like you haven't added any new lead yet...!!!</p>
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="leave-block">
+      <div [ngClass]="{'show-loader':!isDataGetted}" class="loader-block">
+        <mat-spinner></mat-spinner>
+      </div>
+      <div class="top-side" *ngIf="isDataGetted">
+        <span class="annual-live">Annual Leave</span>
+      </div>
+      <div class="content" *ngIf="isDataGetted">
+        <div class="pie-chart" [hidden]="(annualTotalTitle + workRemotely + annualHoursLeave ) === 0">
+          <ngx-charts-pie-chart
+                  [view]="projectView"
+                  [results]="projectChart.single"
+                  [scheme]="projectChart.colorScheme"
+                  [doughnut]="true"
+                  [legend]="true"
+                  [legendPosition]="'bellow'"
+                  [arcWidth]="0.20"
+                  [animations]="true"
+                  [legendTitle]="'Total '+ annualTotalTitle"
+                  [tooltipText]=""
+                  id="day-off-chart-pie"
+          >
+          </ngx-charts-pie-chart>
+        </div>
+        <ul class="annual-list">
+            <li class="anual-list-li"><span class="anual-spans"><span class="color vacation-color"></span>Vacation</span> <span class="anual-spans">{{annualVacation}} Working days</span></li>
+            <li class="anual-list-li"><span class="anual-spans"><span class="color day-off-color"></span>Day Offs</span> <span class="anual-spans">{{annualDayOffs}} Day offs</span></li>
+            <li class="anual-list-li"><span class="anual-spans"><span class="color hourly-leave-color"></span>Hours Leaved</span> <span class="anual-spans">{{getAnnualHoursLeave(annualHoursLeave)}} leave</span></li>
+            <li class="anual-list-li"><span class="anual-spans"><span class="color work-remoatly-color"></span>Work remotely</span> <span class="anual-spans">{{workRemotely}} days</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="vaccation-block">
+      <span class="vacation-title">Vacations</span>
+      <div [ngClass]="{'scroll-class-vacation':scrollClassVacation,'talbe-hidden-class':!scrollClassVacation}" class="vaccation-table">
+        <div [ngClass]="{'show-loader':!isDataGetted}" class="loader-block">
+          <mat-spinner></mat-spinner>
+        </div>
+        <table mat-table [dataSource]="vacationsDataSrource" class="mat-elevation-z8 day-off-table" *ngIf="vacationsDataSrource?.length; else vacationNotFound">
+          <!-- Date Column -->
+          <ng-container matColumnDef="From">
+            <th mat-header-cell *matHeaderCellDef> From</th>
+            <td mat-cell *matCellDef="let element"> {{element.start_date}} </td>
+          </ng-container>
+        
+          <!-- Time Column -->
+          <ng-container matColumnDef="To">
+            <th mat-header-cell *matHeaderCellDef> To </th>
+            <td mat-cell *matCellDef="let element"> {{element.end_date}} </td>
+          </ng-container>
+        
+          <!-- Type Column -->
+          <ng-container matColumnDef="Type">
+            <th class="type-column" mat-header-cell *matHeaderCellDef> Type </th>
+            <td mat-cell *matCellDef="let element"> <span class="circle vaccation-circle"></span> {{element.type}} </td>
+          </ng-container>
+        
+          <!-- Amount Column -->
+          <ng-container matColumnDef="Amount">
+            <th mat-header-cell *matHeaderCellDef> Amount </th>
+            <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+          </ng-container>
+      
+            <!-- Description Column -->
+          <ng-container matColumnDef="Description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element" class="description"> {{element.description}} </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="vacationsColumn sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: vacationsColumn;" (click)="openBookLeave(row.id,row.amount)"></tr>
+        </table>
+        <ng-template #vacationNotFound>
+          <div class="not-found" *ngIf="isDataGetted">
+            <h2>It’s Empty</h2>
+            <p>Look like you haven't added any new lead yet...!!!</p>
+            <img src="assets/icons/not-found/vacation-not-found.svg" alt="vacation">
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+  </div>
+</div>

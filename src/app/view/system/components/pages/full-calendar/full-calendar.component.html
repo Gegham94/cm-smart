@@ -1,0 +1,252 @@
+<div class="calendar">
+    <div class="see-leave-list-add-leave">
+        <button (click)="openBookLeave()" class="add-leave">Book leave</button>
+        <button [matMenuTriggerFor]="menu" class="add-leave see-leave" #t="matMenuTrigger">
+            <span>
+                See my leave
+                <img *ngIf="!isMyLeave" class="arrow" src="assets/icons/content-icons/arrow-top-dr.svg" alt="arrow" [ngClass]="{'open': t.menuOpen}">
+                <img *ngIf="isMyLeave" (click)="toggleOnlyMyLeave()" class="reset" src="assets/icons/event-photos/delete.svg" alt="reset">
+            </span>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before" class="menu">
+            <button class="menu-item" mat-menu-item (click)="redirectToDayOff()">List</button>
+            <span></span>
+            <button class="menu-item" mat-menu-item (click)="toggleOnlyMyLeave()">Calendar</button>
+        </mat-menu>
+    </div>
+    <ng-template #calendarView>
+    <div class="calendar-container">
+        <div class="row text-center top-side-buttons">
+            <div class="col-md-4 next-prev-col">
+                <div class="btn-group next-preview">
+                    <h3 class="calendar-date">{{ viewDate | date:'MMM-dd-YYYY'}}</h3>
+                    <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                        <img src="assets/icons/content-icons/arrow-left.svg" alt="">
+                    </div>
+                    <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                        <img src="assets/icons/content-icons/arrow-right.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 button-col">
+                <div class="btn-group day-month-week">
+                    <div class="btn btn-primary day" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">Day</div>
+                    <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">Week</div>
+                    <div class="btn btn-primary month" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">Month</div>
+                </div>
+            </div>
+        </div>
+        <ng-template #customCellTemplate let-day="day" let-locale="locale">
+            <div (click)="openPopUpDayEvents(day)">
+                <div class="cal-cell-top">
+                    <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
+                    <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}
+                        <div class="task-toaster-content" *ngIf="isHaveTaskByDate(day.date)">
+                            <img src="assets/icons/content-icons/task-done.svg" alt="task" class="today-task">
+                            <div class="task-toaster">Task</div>
+                        </div>
+                    </span>
+
+                    {{getCount(true)}}
+                    <ng-container *ngFor="let vacation of getVacation(day.events); let i = index">
+                        <div *ngIf="vacationCount < 2 && !(moment(day.date).day() === 0 && (day.date | date) !== (vacation.from | date) && vacation.type==='Vacation') &&
+                                  moment(day.date).day() !== 0 && (day.date | date) !== (vacation.from | date) && vacation.type === 'Vacation'"
+                             class="vacations-space">
+                            {{getCount()}}
+                        </div>
+                    </ng-container>
+                    <ng-container *ngFor="let vacation of getVacation(day.events)">
+                        <div class="vacations vacation-length-{{getVacationLength(day.date, vacation.end)}}"
+                             *ngIf="vacationCount < 2 && ((moment(day.date).day() === 0 && (day.date | date) !== (vacation.from | date)) || (day.date | date) === (vacation.from | date))"
+                             [ngClass]="isVacationLineBreak(day.date, vacation.end)"
+                             [style.background-color]="vacation.color.primary">
+                            {{vacation.employee_name}} |
+                            {{vacation.type}} |
+                            {{vacation.from | date:'dd.MM'}} - {{vacation.to | date:'dd.MM.YYYY'}}
+                            {{getCount()}}
+                        </div>
+                    </ng-container>
+                    <div class="position-relative">
+                        <ng-container *ngIf="
+                    getMoreVacation(day).data.length - 2 >= 1 &&
+                    getVacation(day.events).length > 2 &&
+                    ((moment(day.date).day() === 0 && (day.date | date) !== ( getMoreVacation(day).start | date)) ||
+                    (getMoreVacation(day).start | date) === (day.date | date))">
+                            <div class="vacations hide"></div>
+                            <div class="vacations vacation-length-{{getVacationLength(day.date, getMoreVacation(day).end)}} more"
+                                 (mouseleave)="mouseLeave(vacation_request)" (mouseenter)="mouseEnter(vacation_request, $event)">
+                                +{{getVacation(day.events).length - 2}}
+                            </div>
+                        </ng-container>
+
+                        <div (mouseleave)="mouseLeave(vacation_request)" (mouseenter)="mouseEnter(vacation_request)" #vacation_request
+                             class="leave-request vacations-request">
+                            <span class="leave">Vacation Request</span>
+                            <div class="user-side">
+                                <ng-container *ngFor="let vacation of getMoreVacation(day).data">
+                                    <div class="user-cont">
+                                        <img onerror="this.onerror=null;this.src='assets/icons/profile-images/profile-image.png'"
+                                             class="user-leave-image" src="{{vacation.photo}}" alt="">
+                                        <div class="name-surname">
+                                            <span class="leave-type">{{vacation.type}} {{vacation.start | date:'MM.dd'}} - {{vacation.end | date:'MM.dd'}}</span>
+                                            <span class="name">{{vacation.employee_name}}</span>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="cell-totals">
+                    <div class="event-content" *ngIf="getEventsByName(day.events,'Event').length > 0">
+                        <div class="events-side" (mouseleave)="mouseLeave(day_events)" (mouseenter)="mouseEnter(day_events)">
+                            <ng-container *ngFor="let event of getEventsByName(day.events,'Event'); let i = index">
+                                <div [ngClass]="{'meeting': event.title.includes('Meeting')}"
+                                     *ngIf="i < 3"
+                                     class="event-square" [style.background-color]="event.color?.primary">
+                                    <span class="title">{{event.title.split('')[0] | uppercase}}</span>
+                                </div>
+                            </ng-container>
+                            <div class="meeting event-square" *ngIf="getEventsByName(day.events,'Event').length > 3">
+                                <span class="title">+{{getEventsByName(day.events,'Event').length - 3}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div (mouseleave)="mouseLeave(day_events)" (mouseenter)="mouseEnter(day_events)" #day_events
+                         class="day-events">
+                        <ng-container *ngFor="let event of getEventsByName(day.events,'Event')">
+                            <div class="event-block">
+                            <span [ngClass]="{'meeting': event.title.includes('Meeting')}" class="title" [style.background-color]="event.color?.primary">
+                                <span class="first-char">{{event.title.split('')[0] | uppercase}}</span>
+                            </span>
+                                <span class="event-title">
+                                <span class="meeting-title">{{event.title}}</span>
+                                <span class="meeting-title time">{{event.time}}</span>
+                            </span>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                    <ng-container *ngFor="let holiday of holidays">
+                        <div *ngIf="(day.date | date) === (holiday.date | date)  && holiday.type === 'Holiday'">
+                            <span class="title holiday-title">{{holiday.description}}</span>
+                        </div>
+                    </ng-container>
+                    <div class="day-offs">
+                        <ng-container *ngFor="let dayOff of day.events">
+                            <div class="day-offs-content" *ngIf="dayOff.type === 'Day Off' || dayOff.type === 'Work Remotely' || dayOff.type === 'Birthday' || dayOff.type === 'Hourly Leave'">
+                                <img (mouseleave)="mouseLeave(leave_request)" (mouseenter)="mouseEnter(leave_request)"
+                                     onerror="this.onerror=null;this.src='assets/icons/profile-images/profile-image.png'"
+                                     class="user-image" src="{{dayOff.photo}}"
+                                     alt="">
+                                <img onerror="this.onerror=null;this.src='assets/icons/profile-images/profile-image.png'"
+                                     class="birthday" *ngIf="dayOff.type==='Birthday'"
+                                     src="assets/icons/profile-images/birthday.svg" alt="">
+                            </div>
+                        </ng-container>
+
+                    </div>
+                    <div (mouseleave)="mouseLeave(leave_request)" (mouseenter)="mouseEnter(leave_request)" #leave_request
+                         class="leave-request">
+                        <span class="leave">Leave Request</span>
+                        <div class="user-side">
+                            <ng-container *ngFor="let dayOff of day.events">
+                                <div class="user-cont" *ngIf="dayOff.type === 'Day Off' || dayOff.type === 'Work Remotely' || dayOff.type === 'Birthday' || dayOff.type === 'Hourly Leave'">
+                                    <img onerror="this.onerror=null;this.src='assets/icons/profile-images/profile-image.png'"
+                                         class="user-leave-image" src="{{dayOff.photo}}" alt="">
+                                    <div class="name-surname">
+                                        <span class="leave-type">{{dayOff.type}} <span class="date" *ngIf="dayOff.type === 'Hourly Leave'">{{dayOff?.start | date:"HH:mm"}} - {{dayOff?.to | date:"HH:mm"}}</span> </span>
+                                        <span class="name">{{dayOff.employee_name}}</span>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template
+            #defaultTemplate
+            let-days="days"
+            let-locale="locale"
+            let-dayHeaderClicked="dayHeaderClicked"
+            let-eventDropped="eventDropped"
+            let-trackByWeekDayHeaderDate="trackByWeekDayHeaderDate"
+            let-dragEnter="dragEnter"
+        >
+            <div class="cal-day-headers" role="row">
+                <div
+                        class="cal-header position-relative overflow-none"
+                        *ngFor="let day of days; trackBy: trackByWeekDayHeaderDate"
+                        [class.cal-past]="day.isPast"
+                        [class.cal-today]="day.isToday"
+                        [class.cal-future]="day.isFuture"
+                        [class.cal-weekend]="day.isWeekend"
+                        [ngClass]="day.cssClass"
+                        (mwlClick)="dayHeaderClicked.emit({ day: day, sourceEvent: $event })"
+                        mwlDroppable
+                        dragOverClass="cal-drag-over"
+                        tabindex="0"
+                        role="columnheader"
+                >
+                    <b>{{ day.date | calendarDate: 'weekViewColumnHeader':locale }}</b
+                    ><br />
+                    <span>{{
+                        day.date | calendarDate: 'weekViewColumnSubHeader':locale
+                        }}</span>
+                    <div class="task-toaster-content day" *ngIf="isHaveTaskByDate(day.date)">
+                        <img src="assets/icons/content-icons/task-done.svg" alt="task" class="today-task">
+                        <div class="task-toaster">Task</div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+            <div [ngSwitch]="view">
+            <mwl-calendar-month-view
+                    *ngSwitchCase="CalendarView.Month"
+                    [viewDate]="viewDate"
+                    [cellTemplate]="customCellTemplate"
+                    [events]="events.concat(vacations).concat(dayOffsArray)"
+                    (beforeViewRender)="beforeMonthViewRender($event)"
+                    [refresh]="refresh"
+            >
+            </mwl-calendar-month-view>
+
+            <mwl-calendar-week-view
+                    *ngSwitchCase="CalendarView.Week"
+                    [viewDate]="viewDate"
+                    [dayStartHour]="9"
+                    [events]="events.concat(vacations).concat(dayOffsArray).concat(holidays)"
+                    (beforeViewRender)="beforeWeekViewRender($event)"
+                    [refresh]="refresh"
+                    [headerTemplate]="defaultTemplate"
+                    (dayHeaderClicked)="weekDayClick($event)"
+            >
+            </mwl-calendar-week-view>
+
+            <mwl-calendar-week-view
+                    id="calendar-day"
+                    *ngSwitchCase="CalendarView.Day"
+                    [viewDate]="viewDate"
+                    [headerTemplate]="defaultTemplate"
+                    [daysInWeek]="1"
+                    [dayStartHour]="9"
+                    [events]="events.concat(vacations).concat(dayOffsArray).concat(holidays)"
+                    [refresh]="refresh"
+                    (dayHeaderClicked)="weekDayClick($event)"
+            >
+            </mwl-calendar-week-view>
+        </div>
+
+    </div>
+    </ng-template>
+    <div class="loader" *ngIf="loader || loaderTask;else calendarView"><mat-spinner></mat-spinner>
+    </div>
+</div>

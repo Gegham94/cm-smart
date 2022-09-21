@@ -1,0 +1,261 @@
+<div class="profile">
+    <app-header-dashboard [taskData]="toDoListData"></app-header-dashboard>
+    <div class="buttons">
+        <div class="buttons-block">
+            <button (click)="selectTab(btn.id,i)" *ngFor="let btn of buttons; let i = index" class="tab-btn">
+                {{btn.title}}
+                <span [class.active-line]="selectedIndex===i" class="tab-line"></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="tab-content" [ngSwitch]="selectedIndex">
+        <div *ngSwitchCase="0" class="account-block">
+            <form [formGroup]="credentialForm" action="" class="data-form">
+                <div class="image-block">
+                    <input (change)="loadImage($event)" class="pen-image" accept="image/*" type="file" name="photo">
+                    <img class="user-image" [src]="fileUrl" alt="">
+                </div>
+                <div class="input-blocks">
+                    <img class="edit-icon user" src="../../../../../../assets/icons/content-icons/user.svg" alt="">
+                    <img class="edit-icon" src="../../../../../../assets/icons/content-icons/edito.svg" alt="">
+                    <input formControlName="username" class="inputs" placeholder="Name" type="text">
+                </div>
+                <div class="input-blocks">
+                    <img class="edit-icon lock" src="../../../../../../assets/icons/content-icons/lock.svg" alt="">
+                    <img class="edit-icon" src="../../../../../../assets/icons/content-icons/edito.svg" alt="">
+                    <img (click)="showPassword()" class="edit-icon eye"
+                         src="../../../../../../assets/icons/content-icons/eye.svg" alt="">
+                    <input formControlName="password" class="inputs password-input" placeholder="Password"
+                           [type]="type">
+                </div>
+                <button (click)="save()" [ngClass]="{'enable-save-btn':!credentialForm.invalid}" class="save-btn"
+                        type="submit">Save
+                </button>
+            </form>
+        </div>
+
+        <div *ngSwitchCase="1" class="documents-salary">
+            <div class="salary-progress-block">
+                <p class="salary-progress">Salary Progress</p>
+                <input
+                        type="text"
+                        name="daterange"
+                        ngxDaterangepickerMd
+                        [(ngModel)]="selected"
+                        [alwaysShowCalendars]="true"
+                        [linkedCalendars]="false"
+                        [showClearButton]="true"
+                        [keepCalendarOpeningWithRange]="true"
+                        (ngModelChange)="choosedDate($event)"
+                        class="pickers"
+                />
+                <img class="arrow" src="../../../../../../assets/icons/content-icons/arrow-down.svg" alt="">
+                <div class="content-block">
+                    <div class="left-side">
+                        <div class="small-data">
+                            <p class="top">
+                                <span class="more date">{{selectedDate | date:'shortDate'}} - </span>
+                                <span class="more price">AMD 8000</span>
+                            </p>
+                            <p class="bottom">
+                                <span class="more date">{{selectedDate | date:'shortDate'}} - </span>
+                                <span class="more price">AMD 8000</span>
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="right-side">
+                        <div class="diagram">
+                            <div class="diagram-content">
+
+                                <div class="line-blocks">
+                                    <span class="percent">20%</span>
+                                    <div class="line-side">
+                                        <span class="line"></span>
+                                    </div>
+                                    <span class="year">{{selectedDate | date:'shortDate'}} </span>
+                                </div>
+
+                                <div class="line-blocks">
+                                    <span class="percent">20%</span>
+                                    <div class="line-side">
+                                        <span class="line"></span>
+                                    </div>
+                                    <span class="year">{{selectedDate | date:'shortDate'}} </span>
+                                </div>
+
+                                <div class="line-blocks">
+                                    <span class="percent">20%</span>
+                                    <div class="line-side">
+                                        <span class="line"></span>
+                                    </div>
+                                    <span class="year">{{selectedDate | date:'shortDate'}} </span>
+                                </div>
+
+                                <div class="line-blocks">
+                                    <span class="percent">20%</span>
+                                    <div class="line-side">
+                                        <span class="line"></span>
+                                    </div>
+                                    <span class="year">{{selectedDate | date:'shortDate'}} </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="download-block">
+                <span class="documents">Documents</span>
+                <div class="download-content">
+                    <ul class="download-ul">
+                        <li class="download-list">
+                            <div class="download-cont">
+                                <span class="image-pdf">
+                                 <img src="../../../../../../assets/icons/content-icons/pdf.svg" alt="">
+                                </span>
+                                <div class="title-side">
+                                    <span class="download-title">Title</span>
+                                    <span class="download-date">12.11.2021</span>
+                                </div>
+                            </div>
+                            <span class="image-download">
+                                <a href="#" download="name.pdf">
+                                <img src="../../../../../../assets/icons/content-icons/download.svg" alt="">
+                            </a>
+                            </span>
+                        </li>
+                    </ul>
+                    <!--<button class="add">Add</button>-->
+                    <input accept="application/pdf" class="add" id="file" type="file">
+                    <label class="label-file" for="file">Add</label>
+
+                </div>
+            </div>
+        </div>
+
+        <div *ngSwitchCase="2" class="notifications notify-tab">
+            <div class="image-side">
+                <img class="notify-boy" src="../../../../../../assets/icons/content-icons/notification-boy.svg" alt="">
+            </div>
+            <div class="list-block">
+                <ul class="not-ul">
+                    <li *ngFor="let a of toDoListData; let i = index" class="not-li">
+                        <span class="image-title notification-title">
+                            <img *ngIf="a.id===2" src="../../../../../../assets/icons/content-icons/failed1.svg" alt=""
+                                 class="done">
+                            <img *ngIf="a.id!==2 && a.id!==3"
+                                 src="../../../../../../assets/icons/content-icons/done1.svg" alt="" class="done">
+                            <img *ngIf="a.id===3" src="../../../../../../assets/icons/content-icons/stared.svg" alt="">
+
+                            <span class="title-date">
+                                <span class="title">Your day off request approved by your Team lead </span>
+                                <span class="date">Today 10:30PM</span>
+                            </span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <app-projects-tab *ngSwitchCase="3"></app-projects-tab>
+
+        <div *ngSwitchCase="4" class="education">
+            <div class="image-side educ-image-side">
+                <img class="notify-boy education-boy" src="../../../../../../assets/icons/content-icons/education.svg"
+                     alt="">
+            </div>
+            <div class="list-block">
+                <ul class="not-ul">
+                    <li *ngFor="let a of toDoListData; let i = index" class="not-li">
+                        <span class="image-title education-title">
+                            <img *ngIf="a.id!==2" src="../../../../../../assets/icons/content-icons/educatio.svg"
+                                 alt="">
+                            <img *ngIf="a.id===2" src="../../../../../../assets/icons/content-icons/portfolio.svg"
+                                 alt="">
+
+                            <span class="title-date">
+                                <span class="title">Your day off request approved by your Team lead </span>
+                                <span class="date">Today 10:30PM</span>
+                            </span>
+                        <img (click)="showMoreBlock(1, $event,i)" class="dots"
+                             src="../../../../../../assets/icons/content-icons/dots.svg" alt="">
+
+                        </span>
+                        <div (click)="$event.stopPropagation()" id="more-block"
+                             [ngClass]="{'show-more-block': i === selectedIndex1}" class="more-block">
+                            <span class="edit">Edit</span>
+                            <span class="delete">Delete</span>
+                        </div>
+                    </li>
+
+                </ul>
+                <button (click)="openEducationWorkplaceModal()" class="add-education">Add</button>
+            </div>
+        </div>
+
+        <div *ngSwitchCase="5" class="education task-tab">
+            <div class="image-side">
+                <img class="notify-boy education-boy reg" src="../../../../../../assets/icons/content-icons/reg.svg"
+                     alt="">
+            </div>
+            <div class="list-block">
+                <header class="task-header-content">
+                    <span class="d-flex">
+                    <mat-form-field appearance="fill" class="hidden">
+                      <mat-date-range-input [formGroup]="rangeTaskFilter" [rangePicker]="picker">
+                        <input matStartDate formControlName="start" placeholder="Start date">
+                        <input matEndDate formControlName="end" placeholder="End date" (dateChange)="filterTask()">
+                      </mat-date-range-input>
+                      <mat-date-range-picker #picker></mat-date-range-picker>
+
+                      <mat-error *ngIf="rangeTaskFilter.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+                      <mat-error *ngIf="rangeTaskFilter.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+                    </mat-form-field>
+                    <button (click)="picker.open()" class="filter" [ngClass]="{'active':rangeTaskFilter.valid}">
+                        <img src="assets/icons/content-icons/filter-solid.svg" alt="filter" *ngIf="!rangeTaskFilter.valid;else filterRange">
+                        <ng-template #filterRange>
+                            {{(rangeTaskFilter.get("start")?.value | date:'dd/MM/YYYY') +' - '+ (rangeTaskFilter.get("end")?.value | date:'dd/MM/YYYY')}}
+                            <span class="toggle reset-filter" (click)="resetFilter()"></span>
+                        </ng-template>
+                    </button>
+                    <button (click)="openTaskModal()"><img src="assets/icons/content-icons/add.svg" alt="add" class="d-block"></button>
+                </span>
+                </header>
+                <ul class="not-ul">
+                    <li *ngFor="let listToDo of taskDataFiltered; let i = index" class="not-li">
+                        <span class="image-title education-title task-container">
+                            <div class="task-content">
+                                <span (click)="spentTimeTask(i)" class="spend-task">
+                                    <img *ngIf="listToDo.status === 0" src="assets/icons/content-icons/uncheck.svg" alt="unchecked" class="done">
+                                    <img *ngIf="listToDo.status === 1" src="assets/icons/content-icons/done1.svg" alt="done" class="done">
+                                    <img *ngIf="listToDo.status === 2" src="assets/icons/content-icons/failed1.svg" alt="failed" class="done">
+                                </span>
+                                <span class="title-date">
+                                    <span class="title">{{listToDo.title}}</span>
+                                    <div class="date-and-duration">
+                                    <span class="date">{{(today | date) === (listToDo.due_date | date)?'Today ': listToDo.due_date | date }}</span>
+                                    <span class="day"> | {{listToDo.planned_time < 60?listToDo.planned_time +'minute':listToDo.planned_time < 240?listToDo.planned_time / 60 + ' hours':listToDo.planned_time === 240?'Half day':'Full day'}}</span>
+                                    <span class="day" *ngIf="listToDo.status === 1"> | Actual time {{listToDo.spent_time < 60? listToDo.spent_time +'minute': listToDo.spent_time < 240? listToDo.spent_time / 60 + ' hours': listToDo.spent_time === 240?'Half day':'Full day'}}</span>
+                                    <span class="badge" *ngIf="listToDo.project_id">{{projectNameData[listToDo.project_id]}}</span>
+                                    </div>
+                                </span>
+                            </div>
+                            <span *ngIf="isOldTask(listToDo.due_date)">
+                                <button [matMenuTriggerFor]="menu" class="menu"><img
+                                        src="assets/icons/content-icons/menu-point.svg" alt="menu"></button>
+                                <mat-menu #menu="matMenu" xPosition="before">
+                                    <button *ngIf="!listToDo.status" class="menu-item" mat-menu-item
+                                            (click)="openUpdateTask(i)">Edit</button>
+                                    <button class="menu-item" mat-menu-item (click)="deleteTask(i)">Delete</button>
+                                </mat-menu>
+                            </span>
+                        </span>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

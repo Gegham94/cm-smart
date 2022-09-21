@@ -1,0 +1,22 @@
+<div class="selection">
+
+  <div class="time_selection" >
+    <span>{{displayCurrentDay}}</span>
+    <div class="icon_time">
+      <img src="assets/icons/content-icons/clock.svg" class="icon" (click)="openTimeList()">
+      <span class="current_time_input">{{displayCurrentTime}}</span>
+      <span class="toggle" (click)="openTimeList()"><i class="arrow" [ngClass]="{'rotate': isOpenTimeList}"></i></span>
+    </div>
+    <div class="times_list">
+      <ul id="time_list" [ngClass]="{'toggle_time_list':isOpenTimeList}">
+        <li *ngFor="let el of hoursList" (click)="setStartLeave(el.start_day_time,el.id,el.isTime)" [ngClass]="{'selectedTime':el.isSelected,'disableTime':!el.isTime}">{{el.displayeTime}}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="select_leave_time" [ngClass]="{'move_select_leave_time':isOpenTimeList}">
+    <button class="leave_time" *ngFor="let el of minutes" value="el.value" (click)="setMinutes(el.value,el.id)" [ngClass]="{'selectedMinute':el.isSelected===true}" [disabled]="el.disabled">{{el.key}}</button>
+  </div>
+
+</div>
+<div class="error" *ngIf="!errorWorkTime">The vacation time you have chosen during non-working hours*</div>

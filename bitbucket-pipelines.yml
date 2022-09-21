@@ -1,0 +1,31 @@
+# This is a sample build configuration for JavaScript.
+# Check our guides at https://confluence.atlassian.com/x/14UWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: node:10.15.3
+options:
+  size: 2x
+pipelines:
+  branches:
+    master:
+      - step:
+          deployment: Production
+          script: # Modify the commands below to build your repository.
+            - apt-get update -y && apt-get install sshpass
+            - npm install
+            - npm run build
+            - sshpass -p $SSH_PASSWORD ssh $SSH_USERNAME cd public_html/admin/cm-front && git remote -v && git pull origin develop
+            - sshpass -p $SSH_PASSWORD ssh $SSH_USERNAME cd public_html/admin/cm-front && npm i
+            - sshpass -p $SSH_PASSWORD ssh $SSH_USERNAME cd public_html/admin/cm-front && npm run build
+
+    develop:
+      - step:
+          deployment: Development
+          script: # Modify the commands below to build your repository.
+            - apt-get update -y && apt-get install sshpass
+            - npm install
+            - npm run build
+            - sshpass -p $SSH_PASSWORD ssh $SSH_USERNAME cd public_html/admin/cm-front && git remote -v && git pull origin develop
+            - sshpass -p $SSH_PASSWORD ssh $SSH_USERNAME cd public_html/admin/cm-front && npm i
+            - sshpass -p $SSH_PASSWORD ssh $SSH_USERNAME cd public_html/admin/cm-front && npm run build

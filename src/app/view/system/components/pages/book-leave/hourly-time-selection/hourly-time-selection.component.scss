@@ -1,0 +1,199 @@
+.selection{
+	font-family: 'Montserrat', sans-serif;
+	font-style: normal;
+	display: flex;
+	flex-direction: column;
+	height: 307px;
+	position: relative;
+	margin-bottom: 25px;
+	.time_selection{
+		max-width: 150px;
+		width: 100%;
+		span{
+			font-weight: 600;
+			font-size: 14px;
+			line-height: 16px;
+			letter-spacing: 0.25px;
+			color: #1B3131;
+		}
+		.times_list{
+			margin-top: -3px;
+			max-width: 133px;
+			margin-bottom: 30px;
+			ul{
+				padding: 0;
+				max-height: 0;
+				transition: max-height 0.15s ease-out;
+				overflow: hidden;
+				li{
+					font-size: 0;
+					padding: 7px 0;
+					transition: 0.1s;
+				}
+				li:hover{
+					background: #347474;
+					color: #ffffff;
+				}
+			}
+			.toggle_time_list::-webkit-scrollbar{
+				width: 2px;
+			}
+			.toggle_time_list::-webkit-scrollbar-track{
+				box-shadow: inset 3px 2px 6px rgba(65, 64, 64, 0.274);
+				border-radius: 8px;
+				background-color: #F5F5F5;
+			}
+			.toggle_time_list::-webkit-scrollbar-thumb{
+				border-radius: 5px;
+				box-shadow: inset 3px 2px 6px rgba(100, 100, 100, 0.205);
+				background-color: #4c504fb9;
+			}
+			.toggle_time_list {
+				padding: 0;
+				border: 1px solid #347474;
+				border-radius: 0px 0px 4px 4px;
+				max-height: 210px;
+				transition: max-height 0.15s ease-in;
+  			overflow-y: auto;
+				.selectedTime{
+          background: #347474;
+					color: #ffffff;
+        }
+				.disableTime {
+					pointer-events: none;
+				}
+				li{
+					text-align: center;
+					color: #949494;
+					text-decoration: none;
+					list-style:none;
+    			list-style-type:none;
+					border-top: 1px solid #347474;
+					cursor: pointer;
+					font-size: 16px;
+					letter-spacing: 0.4px;
+				}
+			}
+		}
+		.icon_time{
+			display: flex;
+			flex-wrap: nowrap;
+			align-items: center;
+			background: #347474;
+			box-sizing: border-box;
+			border-radius: 4px;
+			max-width: 133px;
+			margin-top: 25px;
+			.icon{
+				cursor: pointer;
+				margin: 8px 12px;
+			}
+			.current_time_input{
+				font-weight: 500;
+				font-size: 14px;
+				line-height: 16px;
+				display: flex;
+				align-items: center;
+				letter-spacing: 0.25px;
+				color: #FCFCFC;
+				border: none;
+				outline: none;
+				background: transparent;
+				margin: 8px 13px 8px 0;
+				width: 100%;
+				cursor: text;
+			}
+			.toggle{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				position: relative;
+				padding: 13px 0 15px 0;
+				width: 100%;
+				cursor: pointer;
+				background: #2c6464;
+				border-radius: 4px;
+				.arrow{
+					color: #ffffff;
+					border: 4px solid transparent;
+					border-top: 4px solid;
+					border-right: 4px solid;
+					transform: rotate(135deg);
+					&.rotate{
+						transform: rotate(-45deg);
+						top: 4px;
+						position: relative;
+					}
+				}
+			}
+			.current_time_input::-webkit-datetime-edit-ampm-field {
+				display: none;
+			}
+			input[type=time]::-webkit-clear-button {
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				-o-appearance: none;
+				-ms-appearance:none;
+				appearance: none;
+				margin: -10px; 
+			}
+			input[type="time"]::-webkit-calendar-picker-indicator {
+				background: none;
+				display: none;
+			}
+		}
+	}
+	.select_leave_time{
+		position: absolute;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		max-width: 300px;
+		margin-bottom: 20px;
+		left: 0;
+		top: 100px;
+		transition: all 0.20s ease-out;
+		.selectedMinute{
+			background: #347474 !important;
+			color: #ffffff !important;
+		}
+		.leave_time{
+			font-weight: 500;
+			font-size: 14px;
+			line-height: 16px;
+			letter-spacing: 0.25px;
+			margin: 0;
+			padding: 8px 12px;
+			max-width: 140px;
+			width: 100%;
+			border: 1px solid #347474;
+			color: #949494;
+			border-radius: 4px;
+			margin: 0 10px 5px 0;
+			background: transparent;
+			cursor: pointer;
+			outline: none;
+			transition: 0.1s;
+			&:hover{
+				background: #347474;
+				color: #ffffff;
+			}
+			&:disabled{
+				background-color: #d5d5d5;
+				cursor: no-drop;
+				border-color: #d5d5d5;
+			}
+		}
+	}
+	.move_select_leave_time{
+		transition: all 0.10s ease-in !important;
+		left: 170px;
+		top: 45px;
+	}
+}
+.error{
+	color: #d6453d;
+	font-size: 14px;
+	font-weight: 400;
+	margin-bottom: 10px;
+}

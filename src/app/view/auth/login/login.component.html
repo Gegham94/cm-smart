@@ -1,0 +1,29 @@
+<div class="form-content">
+  <div>
+    <p>Log in</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+      <div class="form-group">
+        <img src="/assets/icons/main/input-user-icon.svg" class="icon">
+        <input type="text" formControlName="username" placeholder="Username"/>
+      </div>
+      <div *ngIf="errors && errors.username" class="is-invalid">{{errors.username[0]}}</div>
+
+      <div class="form-group">
+        <img src="/assets/icons/main/input-password-icon.svg" class="icon">
+        <input type="password" formControlName="password" placeholder="Password"/>
+      </div>
+      <div *ngIf="errors && errors.password" class="is-invalid">{{errors.password[0]}}</div>
+
+      <div class="login-btn" [ngClass]="{'disabled':!loginForm.valid}">
+        <button [disabled]="!loginForm.valid">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          Login
+        </button>
+      </div>
+
+      <a routerLink="reset-password">Forgot password?</a>
+    </form>
+
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="event-detail-modal">
+<mat-dialog-actions>
+    <button [disableRipple]="true" id="close-btn" mat-button mat-dialog-close><img src="../../../../../../../assets/icons/content-icons/close.svg" alt=""></button>
+</mat-dialog-actions>
+    <div class="content">
+    <span class="title">{{eventData.title}}</span>
+    <div class="image-side">
+        <img class="event-img" onerror="this.src='../../.././../../../../assets/icons/event-photos/default-event.svg'" src="https://manage-company.app{{eventData.photo}}"  alt="">
+
+    </div>
+    <div class="options">
+        <div class="organizer-side">
+            <img src="assets/icons/event-photos/person.svg" alt="" class="option-img">
+            <span  class="organizer-name">Organizer - {{ eventData.organizer.name }}</span>
+        </div>
+        <div class="date-block">
+            <img src="../../../../../../../assets/icons/event-photos/calendar.svg" alt="">
+            <span class="date">{{eventData.start_date | date:'fullDate'}}</span>
+            <span class="hour">{{eventData.start_date | date:'HH:mm'}} - {{eventData.end_date | date:'HH:mm'}}</span>
+        </div>
+        <div class="location-block">
+            <img src="../../../../../../../assets/icons/event-photos/map.svg" alt="">
+            <span class="name">Brain Fors</span>
+            <span class="place">{{eventData.room}}</span>
+        </div>
+        <div class="link-block">
+
+            <div class="img-link">
+                <div *ngIf="!isCopied" class="copy-text">
+                    <div class="arrow-copy"></div>
+                    Copy</div>
+                <div *ngIf="isCopied" class="copied-text">
+                    <div class="arrow-copied"></div>
+                    Copied</div>
+                <img (click)="copyText(link)"  class="link-photo" src="../../../../../../../assets/icons/event-photos/link.svg" alt="">
+            </div>
+            <span class="link" #link>https://www.figma.com/file/lkpBsdfgdsgsdgc...</span>
+        </div>
+    </div>
+    <div class="desc-block">
+        <p class="desc">
+            {{eventData.description}}
+        </p>
+    </div>
+    <span class="part">Participants</span>
+    <div class="participants-block">
+        <ng-container *ngFor="let arr of eventData.participants">
+        <div *ngFor="let emp of arr.employees"  class="person">
+            <img onerror="this.src='../../.././../../../../assets/icons/event-photos/profile-icon-1.svg'" class="person-photo" src="https://manage-company.app{{emp.photo}}" alt="">
+            <div class="name-type">
+                <span class="name">{{emp.name}}</span>
+                <span class="type">{{arr.team}}</span>
+            </div>
+        </div>
+        </ng-container>
+
+    </div>
+    </div>
+    <button class="edit" (click)="editEvent()" [disabled]="eventData.organizer.id !== this.currentUser.employee_id">Edit</button>
+</div>

@@ -1,0 +1,36 @@
+<div class="select-days" [class.select-days_next-week]="nextWeekDays.length > 0">
+    <button
+        *ngFor="let day of (nextWeekShown ? nextWeekDays : currentWeekDays)"
+        class="select-days__button"
+        (click)="setActiveDate(day.id)"
+        [class.select-days__button_active]="day.isChecked"
+        [class.select-days__button_disabled]="checkIfDayDisabled(day.date)"
+    >
+        <span>
+            {{day.date | date: 'dd'}}
+        </span>
+        <span>
+            {{day.date | date: 'EEEE'}}
+        </span>
+    </button>
+    <div class="select-days__action-keeper" *ngIf="nextWeekDays.length > 0">
+        <button
+            class="select-days__action select-days__action_prev"
+            [disabled]="!nextWeekShown"
+            (click)="setNextWeekShown(false)"
+        >
+            <mat-icon>
+                <img src="./assets/icons/content-icons/arrow-left_dark.svg" alt="Arrow left">
+            </mat-icon>
+        </button>
+        <button
+            class="select-days__action select-days__action_next"
+            [disabled]="nextWeekShown"
+            (click)="setNextWeekShown(true)"
+        >
+            <mat-icon>
+                <img src="./assets/icons/content-icons/arrow-right_dark.svg" alt="Arrow right">
+            </mat-icon>
+        </button>
+    </div>
+</div>

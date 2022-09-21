@@ -1,0 +1,245 @@
+.content{
+  font-family: 'Montserrat', sans-serif;
+  position: relative;
+  display: flex;
+  height: 100%;
+  min-height: 630px;
+  .closeBookLeave{
+    position: absolute;
+    right: 28px;
+    top: 28px;
+    width: 28px;
+    height: 28px;
+    opacity: 0.4;
+    &:hover{
+      opacity: 1;
+      cursor: pointer;
+    }
+    &::before, &::after{
+      content: ' ';
+      position: absolute;
+      left: 18px;
+      height: 21px;
+      width: 1px;
+      background-color: #333;
+    }
+    &::before{ transform: rotate(45deg) }
+    &::after{ transform: rotate(-45deg) }
+  }
+  .left-sections{
+    display: flex;
+    flex-direction: column;
+    padding: 40px 30px 33px 30px;
+    width: 100%;
+    height: 670px;
+    .left-section-header{
+      margin-bottom: 25px;
+      span{
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.25px;
+        color: #11493E;
+      }
+    }
+    .sections{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      .tabs{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        width: 100%;
+        .selected{
+          background: #347474 !important;
+          transition: all 0.10s;
+        }
+        .tab{
+          width: 132px;
+          border-radius: 4px;
+          background: #c2c2c2;
+          color: #F7F7F7;
+          cursor: pointer;
+          margin-right: 8px;
+          padding: 8px 12px;
+          text-align: center;
+          transition: all 0.10s;
+          span{
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 16px;
+            letter-spacing: 0.25px;
+            color: #F7F7F7;
+          }
+        }
+        @media(max-width: 1152px) {
+          .tab{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 50px;
+            padding: 0;
+            span{
+              font-size: 12px;
+            }
+          }
+        }
+        .tab:hover{
+          background: #347474 !important;
+        }
+      }
+      @media(max-width: 750px) {
+        .tabs{
+          flex-wrap: wrap;
+          .tab{
+            margin-bottom: 10px;
+          }
+        }
+      }
+    }
+    .description{
+      border: 1px solid #DEDEDE;
+      box-sizing: border-box;
+      border-radius: 8px;
+      padding: 3px;
+      textarea::-webkit-scrollbar{
+        width: 2px;
+      }
+      textarea::-webkit-scrollbar-track{
+        box-shadow: inset 3px 2px 6px rgba(65, 64, 64, 0.274);
+        border-radius: 8px;
+        background-color: #F5F5F5;
+      }
+      textarea::-webkit-scrollbar-thumb{
+        border-radius: 5px;
+        box-shadow: inset 3px 2px 6px rgba(100, 100, 100, 0.205);
+        background-color: #4c504fb9;
+      }
+      textarea{
+        width: 100%;
+        height: 100%;
+        border: none;
+        text-decoration: none;
+        outline: none;
+        resize: none;
+        overflow-y: auto;
+        padding-left: 20px;
+        padding-top: 15px;
+      }
+    }
+  }
+
+  .right-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #E9F1F1;
+    width: 100%;
+    min-width: 230px;
+    .right-section-header{
+      display: flex;
+      justify-content: space-between;
+      margin-top: 55px;
+      padding: 40px 22px 33px 22px;
+      .right-section-title{
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.25px;
+        color: #949494;
+      }
+      .booked-days-title{
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 16px;
+        letter-spacing: 0.25px;
+        color: #347474;
+      }
+    }
+    .booked-days{
+      padding: 0 20px 30px 20px;
+      width: 100%;
+      height: 100%;
+    }
+    .right-section-footer{
+      display: flex;
+      flex-direction: column;
+      border-top: 0.5px solid #DEDEDE;
+      padding: 40px 22px 33px 22px;
+      .days{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 16px;
+        letter-spacing: 0.25px;
+        color: #347474;
+        margin-bottom: 8px;
+      }
+      .annaul{ color: #347474; }
+      .remaining{ color: #949494; }
+      .book-btn{
+        text-align: center;
+        background: #347474;
+        margin-top: 13px;
+        border-radius: 4px;
+        button{
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 16px;
+          letter-spacing: 0.25px;
+          color: #FCFCFC;
+          height: 32px;
+          width: 100%;
+          outline: none;
+          border: none;
+          background: transparent;
+          text-decoration: none;
+          user-select: none;
+          -moz-user-select: none;
+          -webkit-user-select: none;
+          -ms-user-select: none;
+          color: #FCFCFC;
+        }
+      }
+      .cancel-btn{
+        text-align: center;
+        background: #D6453D;
+        margin-top: 13px;
+        border-radius: 4px;
+        &.disabled{
+          background-color: rgb(214, 69, 61, 0.5);
+          button{cursor: default}
+        }
+        button{
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 16px;
+          letter-spacing: 0.25px;
+          color: #FCFCFC;
+          height: 32px;
+          width: 100%;
+          outline: none;
+          border: none;
+          background: transparent;
+          text-decoration: none;
+          user-select: none;
+          -moz-user-select: none;
+          -webkit-user-select: none;
+          -ms-user-select: none;
+          color: #FCFCFC;
+        }
+      }
+      .cancel-btn,button:hover {cursor: pointer;}
+    }
+  }
+}

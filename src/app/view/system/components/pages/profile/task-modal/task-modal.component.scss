@@ -1,0 +1,65 @@
+::ng-deep{
+  .task-modal{
+    width: 700px;
+    height: 500px;
+    .mat-dialog-container{
+      padding: 50px;
+    }
+  }
+}
+.task{
+  position: relative;
+  .title-and-close{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .title{
+      margin: 0;
+      color: #11493E;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .close{
+
+    }
+  }
+  .title-form{
+    position: relative;
+    .title{
+      .title-input{
+        width: 100%;
+        border: 1px solid #616062;
+        border-radius: 8px;
+        height: 46px;
+        padding-left: 16px;
+        color: #949494;
+        margin-top: 53px;
+        &:focus{
+          outline: none;
+        }
+      }
+      .add-btn{
+        width: 101px;
+        height: 32px;
+        color: white;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 600;
+        background-color: #347474;
+        border: none;
+        border-radius: 4px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translateY(273px);
+        &:hover{
+          cursor: pointer;
+          outline: none;
+        }
+        &:focus{
+          outline: none;
+        }
+      }
+    }
+  }
+}

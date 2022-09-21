@@ -1,0 +1,41 @@
+<div class="select-project">
+    <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedTabChange)="tabChange($event)">
+        <mat-tab label="Projects">
+            <div class="select-project__project-list" *ngIf="!loading; else loadingSpinner">
+                <button
+                    *ngFor="let project of projectList"
+                    class="select-project__project"
+                    [class.select-project__project_active]="projectFormGroup.get('project')?.value === project.id"
+                    (click)="setProject(project.id)"
+                >
+                    {{project.title}}
+                </button>
+            </div>
+        </mat-tab>
+        <mat-tab label="Organizational Process">
+            <div class="select-project__organizational-process-list" *ngIf="!loading; else loadingSpinner">
+                <button
+                    class="select-project__organizational-process"
+                    [class.select-project__organizational-process_active]="projectFormGroup.get('organizationalProcess')?.value === process.id"
+                    *ngFor="let process of organizationalProcessList"
+                    (click)="setOrganizationalProcess(process.id, process.title)"
+                >
+                    {{process.title}}
+                </button>
+                <button
+                    (click)="setIsOtherOrganizationState(true)"
+                    class="select-project__organizational-process"
+                    [class.select-project__organizational-process_active]="isOtherOrganization"
+                >
+                    Other
+                </button>
+                <input *ngIf="isOtherOrganization" [formControl]="titleFormControl" class="select-project__organizational-process select-project__organizational-process_other" placeholder="Add organizational process name" type="text">
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+<ng-template #loadingSpinner>
+    <div class="loader-block">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>

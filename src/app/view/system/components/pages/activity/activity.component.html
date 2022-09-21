@@ -1,0 +1,102 @@
+<main class="content">
+    <h4>WORK PROGRESS</h4>
+
+    <div class="container-block">
+        <div class="block table">
+            <table>
+                <thead>
+                <tr>
+                    <th class="index">#</th>
+                    <th>Project</th>
+                    <th>Manager</th>
+                    <th>Deadline</th>
+                    <th>Status</th>
+                    <th class="badge-size">Progres</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="index">1</td>
+                    <td>Projerct name</td>
+                    <td>Name</td>
+                    <td>10/10/2022</td>
+                    <td class="status red">in progres</td>
+                    <td class="badge-size">
+                        <span class="badge blue">50%</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="index">2</td>
+                    <td>Projerct name</td>
+                    <td>Name</td>
+                    <td>10/10/2022</td>
+                    <td class="status green">completed</td>
+                    <td class="badge-size">
+                        <span class="badge green">100%</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="index">3</td>
+                    <td>Projerct name</td>
+                    <td>Name</td>
+                    <td>10/10/2022</td>
+                    <td class="status yellow">in progres</td>
+                    <td class="badge-size">
+                        <span class="badge yellow">75%</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="index">4</td>
+                    <td>Projerct name</td>
+                    <td>Name</td>
+                    <td>10/10/2022</td>
+                    <td class="status blue">in progres</td>
+                    <td class="badge-size">
+                        <span class="badge blue">65%</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="block project-chart">
+            <header>
+                <h4>Project</h4>
+            </header>
+            <ngx-charts-advanced-pie-chart
+                    [view]="projectView"
+                    [results]="projectChart.single"
+                    [scheme]="projectChart.colorScheme"
+                    [label]="'March2022'"
+            >
+            </ngx-charts-advanced-pie-chart>
+        </div>
+    </div>
+    <h4 class="text-capitalize">Progress track</h4>
+    <div class="block diagram_content">
+        <div class="data_range_selection">
+            <button class="display_range" (focus)="progressTask.isOpenDataList = true" (focusout)="progressTask.isOpenDataList = false">
+                <span class="selected_range">{{progressTask.dataRangeOptions[0].start}} - {{progressTask.dataRangeOptions[0].end}}</span>
+                <i class="arrow"></i>
+            </button>
+            <div class="data_list">
+                <ul [ngClass]="{'toggle_data_list':progressTask.isOpenDataList}">
+                    <li *ngFor="let range of progressTask.dataRangeOptions">{{range.start}} - {{range.end}}</li>
+                </ul>
+            </div>
+        </div>
+
+        <ngx-charts-line-chart
+                (window:resize)="onResize($event)"
+                [view]="progressTaskView"
+                [scheme]="progressTask.colorScheme"
+                [legend]="true"
+                [xAxis]="true"
+                [yAxis]="true"
+                [timeline]="true"
+                [results]="progressTask.chartData"
+                (select)="onSelect($event)"
+                (activate)="onActivate($event)"
+                (deactivate)="onDeactivate($event)">
+        </ngx-charts-line-chart>
+    </div>
+</main>

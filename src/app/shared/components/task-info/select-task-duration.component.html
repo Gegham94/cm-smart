@@ -1,0 +1,38 @@
+<div class="select-duration">
+    <div class="select-duration__button-list">
+        <button
+            *ngFor="let duration of durationButtons"
+            class="select-duration__button"
+            [class.select-duration__button_active]="duration.selected"
+            (click)="activateDuration(duration.id)"
+        >
+            {{duration.title}}
+        </button>
+        <button
+            class="select-duration__button"
+            [class.select-duration__button_active]="isOther"
+            (click)="activateOtherDuration()"
+        >
+            Other
+        </button>
+    </div>
+    <div class="select-duration__other-keeper" *ngIf="isOther">
+        <article>
+            Please go back to <a (click)="goToDescription()">description</a> and describe your task step by step to
+            make understandable the time you want to spend on this task.
+        </article>
+        <div class="select-duration__other">
+            <div class="select-duration__other-group select-duration__other-group_hour">
+                <input class="select-duration__other-input" type="text" data-index="0" placeholder="0" mask="0" (focus)="hourDozens = null" [(ngModel)]="hourDozens" (input)="setFormControl($event)">
+                <input class="select-duration__other-input" type="text" data-index="1" placeholder="0" mask="0" (focus)="hour = null" [(ngModel)]="hour" (input)="setFormControl($event)">
+            </div>
+            <mat-icon class="select-duration__other-separator">
+                <img src="./assets/icons/content-icons/vertical-dots.svg" alt="Vertical Dots">
+            </mat-icon>
+            <div class="select-duration__other-group select-duration__other-group_minutes">
+                <input class="select-duration__other-input" type="text" data-index="2" placeholder="0" mask="m" (focus)="minuteDozens = null" [patterns]="customPatterns" [(ngModel)]="minuteDozens" (input)="setFormControl($event)">
+                <input class="select-duration__other-input" type="text" data-index="3" placeholder="0" mask="0" (focus)="minute = null" [(ngModel)]="minute" (input)="setFormControl($event)">
+            </div>
+        </div>
+    </div>
+</div>

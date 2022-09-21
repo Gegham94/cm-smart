@@ -1,0 +1,85 @@
+/* You can add global styles to this file, and also import other style files */
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('./assets/fonts/Montserrat/Montserrat-Regular.ttf');
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('./assets/fonts/Roboto/Roboto-Regular.ttf');
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('./assets/fonts/Inter/Inter-Regular.ttf');
+}
+@font-face {
+  font-family: 'Gilroy';
+  src: url('./assets/fonts/Gilroy/Gilroy-Regular.ttf');
+}
+
+html, body {
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0 ;
+  &.cdk-global-scrollblock{
+    overflow: auto;
+  }
+}
+body { font-family: 'Roboto', "Helvetica Neue", sans-serif; }
+.custom-MatDialog::-webkit-scrollbar{
+  width: 5px;
+}
+.custom-MatDialog::-webkit-scrollbar-track{
+	box-shadow: inset 3px 2px 6px rgba(65, 64, 64, 0.37);
+	border-radius: 8px;
+	background-color: #F5F5F5;
+}
+.custom-MatDialog::-webkit-scrollbar-thumb{
+	border-radius: 5px;
+	box-shadow: inset 3px 2px 6px rgba(100, 100, 100, 0.3);
+	background-color: #145e4fa6;
+}
+.custom-MatDialog {
+  overflow: auto;
+  margin-top: 30px;
+  .mat-dialog-container{
+    margin: 0;
+    padding: 0;
+    border-radius: 4px;
+  }
+}
+.event-detail-modal .mat-dialog-container{
+  padding: 48px 30px 30px 30px;
+  overflow-x: hidden;
+}
+.event-create-modal .mat-dialog-container{
+  overflow-x: hidden;
+}
+@media(max-width: 1152px) {
+  .custom-MatDialog{
+    width: 600px;
+  }
+}
+
+.custom-BirthdayDialog{
+}
+.custom-dialog-container-padding-0 .mat-dialog-container {
+  /* add your styles */
+  padding: 0 !important;
+}
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video{
+  font-family: 'Montserrat', serif;
+}
+
+.mat-button-base {
+  outline: none !important;
+}
+
+button {
+  outline: none !important;
+  cursor: pointer !important;
+}

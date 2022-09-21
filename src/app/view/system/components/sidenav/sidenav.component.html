@@ -1,0 +1,27 @@
+<div class="sidenav" [ngClass]="{'resize-sidenav':sidenavValue}">
+  <div class="menu">
+
+    <div class="top">
+      <div class="logo-container">
+        <a class="bf-logo-text" routerLink="/system/dashboard">
+        <img [ngClass]="{'resize-logo':sidenavValue}" src="/assets/project-logo/bf-logo.png" alt="">
+      </a>
+       <span class="bf"  [ngClass]="{'hide-title-text':sidenavValue}">BRAIN FORS</span> 
+      </div>
+      <ul>
+        <li *ngFor="let item of sidenavData | sidenavItemPossition:'top'">
+          <app-sidenav-menu-item [hideItem]="sidenavValue" [item]="item" (toggle)=sidenavService.toggle($event)></app-sidenav-menu-item>
+        </li>
+      </ul>
+    </div>
+
+<!--    <div class="bottom">-->
+<!--      <ul>-->
+<!--        <li *ngFor="let item of sidenavData | sidenavItemPossition:'bottom'">-->
+<!--          <app-sidenav-menu-item [sidenav]="sidenavValue" [item]="item" (toggle)=sidenavService.toggle($event)></app-sidenav-menu-item>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
+
+  </div>
+</div>

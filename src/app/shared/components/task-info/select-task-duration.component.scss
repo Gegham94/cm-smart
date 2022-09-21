@@ -1,0 +1,95 @@
+.select-duration {
+  margin-top: 28.51px;
+  padding: 0 27px 0 36px;
+  height: 314px;
+
+  &__button {
+    width: calc(100% / 4 - 12px);
+    height: 32px;
+    border: 1px solid #347474;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    border-radius: 4px;
+    letter-spacing: 0.25px;
+    color: #949494;
+    background: transparent;
+    transition: .15s ease-in-out background, .15s ease-in-out color;
+
+    &_active {
+      background: #347474;
+      color: #FCFCFC;
+    }
+
+    &-list {
+      display: flex;
+      flex-wrap: wrap;
+      column-gap: 16px;
+      row-gap: 24px;
+      width: 100%;
+    }
+  }
+
+  &__other {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 25px;
+
+    &-keeper {
+      margin-top: 25.49px;
+
+      article {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        letter-spacing: 0.25px;
+        color: #949494;
+        text-align: justify;
+
+        a {
+          color: #347474;
+          font-weight: 600;
+          cursor: pointer;
+        }
+      }
+    }
+
+    &-group {
+      display: flex;
+      gap: 4px;
+    }
+
+    &-separator {
+      width: 4px;
+      padding: 0;
+    }
+
+    &-input {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #347474;
+      border-radius: 4px;
+      letter-spacing: 0.25px;
+      color: #949494;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 16px;
+      text-align: center;
+      outline: none;
+      transition: color .15s ease-in-out;
+
+      &:focus {
+        color: #347474;
+      }
+
+    }
+  }
+}
+
+::ng-deep {
+  .custom-MatDialog {
+    width: 542px !important;
+    height: 495px !important;
+  }
+}

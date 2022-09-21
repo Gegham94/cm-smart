@@ -1,0 +1,84 @@
+<div class="content" id="skills-content" (click)="openDataRangeSelection(true)">
+
+  <div class="chart_language_content">
+    <div class="chart_container">
+      <p class="title">Skills progress</p>
+      <div class="diagram_content">
+        <div class="data_range_selection" >
+          <div class="display_range" (click)="openDataRangeSelection(); $event.stopPropagation()">
+            <span class="selected_range">{{dataRangeOptions[0].start}} - {{dataRangeOptions[0].end}}</span>
+            <i class="arrow"></i>
+          </div>
+          <div class="data_list">
+            <ul [ngClass]="{'toggle_data_list':isOpenDataList}">
+              <li *ngFor="let range of dataRangeOptions">{{range.start}} - {{range.end}}</li>
+            </ul>
+          </div>
+        </div>
+
+        <ngx-charts-line-chart
+          (window:resize)="onResize($event)"
+          [view]="view"
+          [scheme]="colorScheme"
+          [legend]="true"
+          [xAxis]="true"
+          [yAxis]="true"
+          [timeline]="true"
+          [results]="chartData">
+        </ngx-charts-line-chart>
+      </div>
+    </div>
+
+    <div class="language_container">
+      <p class="title">Language Skills</p>
+
+      <div class="language_content">
+
+        <div class="skills_date">
+          <p>updated 20.11.2021</p>
+        </div>
+
+        <div class="languages">
+          <div class="language">
+            <span class="name">English</span>
+            <span class="category">B2</span>
+          </div>
+          <div class="language">
+            <span class="name">Russian</span>
+            <span class="category">A2</span>
+          </div>
+        </div>
+
+        <hr class="middle_line">
+
+        <div class="test_text">
+          <div class="text">
+            <p>If you want to change your language levels Please follow the link below and pass the test, after passing test you will see your language levels here.</p>
+          </div>
+          <div class="text_button">
+            <a class="pass_test" (click)="passTest()">pass the test</a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="skills_container">
+    <div class="skills_header">
+      <p class="skills_title">All Skills</p>
+      <button type="button" class="add_new_skill" (click)="addNewSkill()">Add New Skill</button>
+    </div>
+    <div class="skills">
+      <div class="skill" *ngFor="let skill of skillsData" (click)="updateSkill(skill)">
+        <img class="skill_img" src="{{skill.icon}}">
+        <p class="skill_name">{{skill.name}}</p>
+        <div class="rating">
+          <ngb-rating [max]="5" [(rate)]="skill.rating" [readonly]="true"></ngb-rating>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

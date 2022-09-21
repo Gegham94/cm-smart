@@ -1,0 +1,143 @@
+.content{
+  font-family: 'Montserrat', sans-serif;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  .pass_test_container {
+    margin: 28px 64px 28px 44px;
+    .header{
+      margin-bottom: 50px;
+      .content_title{
+        font-family: 'Montserrat', sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.25px;
+        color: #11493E;
+      }
+      .close_pass_test{
+        position: absolute;
+        right: 28px;
+        top: 28px;
+        width: 28px;
+        height: 28px;
+        opacity: 0.4;
+        &:hover{
+          opacity: 1;
+          cursor: pointer;
+        }
+        &::before, &::after{
+          content: ' ';
+          position: absolute;
+          left: 18px;
+          height: 21px;
+          width: 1px;
+          background-color: #333;
+        }
+        &::before{ transform: rotate(45deg) }
+        &::after{ transform: rotate(-45deg) }
+      }
+    }
+    .language_checkbox_content{
+      .language{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        /* The container */
+        .language_container {
+          font-family: 'Montserrat', sans-serif;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 24px;
+          letter-spacing: 0.25px;
+          color: #949494;
+          display: block;
+          position: relative;
+          padding-left: 35px;
+          margin-bottom: 29px;
+          cursor: pointer;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+
+        /* Hide the browser's default checkbox */
+        .language_container input {
+          position: absolute;
+          opacity: 0;
+          cursor: pointer;
+          height: 0;
+          width: 0;
+        }
+
+        /* Create a custom checkbox */
+        .checkmark {
+          position: absolute;
+          top: 4px;
+          left: 0;
+          height: 16px;
+          width: 16px;
+          background-color: #DEDEDE;
+          border-radius: 4px;
+        }
+
+        /* On mouse-hover, add a grey background color */
+        .language_container:hover input ~ .checkmark {
+          background-color: #ccc;
+        }
+
+        /* When the checkbox is checked, add a green background */
+        .language_container input:checked ~ .checkmark {
+          background-color: #347474;
+        }
+
+        /* Hide the checkmark indicator */
+        .checkmark:after {
+          content: "";
+          position: absolute;
+          display: none;
+        }
+      }
+    }
+    .pass_test_button{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      margin-right: -20px;
+      &::before {
+        content: "";
+        flex: auto;
+      }
+      .choose_btn{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Montserrat', sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 16px;
+        letter-spacing: 0.25px;
+        background: #347474f3;
+        color: #FCFCFC;
+        border-radius: 4px;
+        outline: none;
+        border: none;
+        text-decoration: none;
+        transition: all 0.3s;
+        height: 32px;
+        min-width: 70px;
+        max-width: 101px;
+        width: 100%;
+        cursor: pointer;
+        &:hover{
+          background: #10463b;
+        }
+      }
+    }
+  }
+}

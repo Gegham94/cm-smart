@@ -1,0 +1,134 @@
+::ng-deep{
+  ::-webkit-scrollbar {
+    width: 2px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #ffffff;
+    margin-top: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #949494; 
+    border-radius: 20px;
+  }
+}
+.content{
+  font-family: 'Montserrat', sans-serif;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  .skill_container{
+    margin: 28px 64px 28px 44px;
+    .header{
+      margin-bottom: 35px;
+      .content_title{
+        font-family: 'Montserrat', sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.25px;
+        color: #11493E;
+      }
+      .close_add_new_skill{
+        position: absolute;
+        right: 28px;
+        top: 28px;
+        width: 28px;
+        height: 28px;
+        opacity: 0.4;
+        &:hover{
+          opacity: 1;
+          cursor: pointer;
+        }
+        &::before, &::after{
+          content: ' ';
+          position: absolute;
+          left: 18px;
+          height: 21px;
+          width: 1px;
+          background-color: #333;
+        }
+        &::before{ transform: rotate(45deg) }
+        &::after{ transform: rotate(-45deg) }
+      }
+    }
+    .rate_skill{
+      ngb-rating {
+        margin-bottom: 25px;
+        .star {
+          font-size: 30px;
+          color: #DEDEDE;
+        }
+        .filled {
+          color: #f2994a;
+        }
+      }
+      .rate_skill_text{
+        font-family: 'Montserrat', sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        letter-spacing: 0.25px;
+        color: #616062;
+        margin-bottom: 14px;
+      }
+      .test_text{
+        font-family: 'Montserrat', sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 18px;
+        letter-spacing: 0.25px;
+        color: #949494;
+        .pass_test{
+          text-decoration-line: underline;
+          color: #11493E;
+          cursor: pointer;
+        }
+      }
+    }
+    .skill_button{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      margin-right: -20px;
+      margin-top: 30px;
+      &::before {
+        content: "";
+        flex: auto;
+      }
+      ._btn{
+        font-family: 'Montserrat', sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 16px;
+        letter-spacing: 0.25px;
+        color: #FCFCFC;
+        border-radius: 4px;
+        outline: none;
+        border: none;
+        transition: all 0.3s;
+        height: 32px;
+        min-width: 70px;
+        max-width: 101px;
+        width: 100%;
+        cursor: pointer;
+        margin-left: 8px;
+      }
+      .update{
+        background: #347474f3;
+        &:hover{
+          background: #10463b;
+        }
+      }
+      .delete{
+        background: #D6453D;
+        &:hover{
+          background: #a0150d;
+        }
+      }
+    }
+  }
+}

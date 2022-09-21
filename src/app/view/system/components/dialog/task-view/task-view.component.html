@@ -1,0 +1,76 @@
+<div class="dialog-container task-view">
+    <button
+        class="task-view__close-button"
+        mat-icon-button
+        (click)="dialogRef.close()"
+    >
+        <mat-icon>
+            <img src="./assets/icons/content-icons/close.svg" alt="Close">
+        </mat-icon>
+    </button>
+    <h3 class="task-view__title">Task</h3>
+    <div class="task-view__property-keeper">
+        <h4 class="task-view__property">
+            <mat-icon>
+                <img src="../../../../../../assets/icons/content-icons/calendar-1.svg" alt="Calendar">
+            </mat-icon>
+            Date
+        </h4>
+        <span class="task-view__value">
+            {{task.due_date | date: 'MMM dd, YYYY'}}
+            <button mat-icon-button (click)="openUpdateTask(TaskCreateStep.SelectDay)">
+                <mat-icon class="task-view__edit-icon">
+                    <img src="./assets/icons/content-icons/edit.svg" alt="Edit">
+                </mat-icon>
+            </button>
+        </span>
+    </div>
+    <div class="task-view__property-keeper">
+        <h4 class="task-view__property">
+            <mat-icon>
+                <img src="./assets/icons/content-icons/text.svg" alt="Text">
+            </mat-icon>
+            Title and Description
+        </h4>
+        <div>
+            <span class="task-view__value">
+                {{task.title}}
+                <button mat-icon-button (click)="openUpdateTask(TaskCreateStep.TitleAndDescription)">
+                    <mat-icon class="task-view__edit-icon">
+                        <img src="./assets/icons/content-icons/edit.svg" alt="Edit">
+                    </mat-icon>
+                </button>
+            </span>
+            <article *ngIf="task.description" class="task-view__value task-view__value_description">
+                {{task.description}}
+            </article>
+        </div>
+    </div>
+    <div class="task-view__property-keeper">
+        <h4 class="task-view__property">
+            <mat-icon>
+                <img src="./assets/icons/content-icons/folder.svg" alt="Folder">
+            </mat-icon>
+            Project or Organization
+        </h4>
+        <span class="task-view__value">
+            {{task.project}}
+        </span>
+    </div>
+    <div class="task-view__property-keeper">
+        <h4 class="task-view__property">
+            <mat-icon>
+                <img src="../../../../../../assets/icons/content-icons/clock-primary.svg" alt="Clock">
+            </mat-icon>
+            Duration
+        </h4>
+        <span class="task-view__value">
+            {{task.planned_time < 60 ? task.planned_time + ' min' : task.planned_time < 240 ? task.planned_time / 60 + ' hrs' : task.planned_time === 240 ? 'Half day' : task.planned_time === 480 ? 'Full day' : customPlannedTime}}
+            <button mat-icon-button (click)="openUpdateTask(TaskCreateStep.SelectDuration)">
+                <mat-icon class="task-view__edit-icon">
+                    <img src="./assets/icons/content-icons/edit.svg" alt="Edit">
+                </mat-icon>
+            </button>
+        </span>
+    </div>
+</div>

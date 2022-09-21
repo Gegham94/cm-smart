@@ -1,0 +1,25 @@
+<div class="top-content">
+  <div class="header-content opened-bar" [ngClass]="{'replaced-button': showSideNav}">
+    <button (click)="hideAndShowNavbar()" class="header-lines show-opened-nav-btn">
+      <span [ngClass]="{'resize-lines':showSideNav}"></span><span [ngClass]="{'resize-lines':showSideNav}"></span><span [ngClass]="{'resize-lines':showSideNav}"></span>
+    </button>
+    <p>{{headerTitle}}</p>
+  </div>
+  <div class="header-profile-img">
+    <div>
+      <app-notification></app-notification>
+    </div>
+    <div class="settings-btn" (click)="openSettingsPopUp()">
+      <img src="assets/icons/content-icons/cog.svg">
+    </div>
+    <div class="avatar">
+      <img src="assets/icons/profile-images/user-icon.png" (click)="openInfo(); $event.stopPropagation()">
+      <div class="user-info" id="user_info">
+        <div>
+          <a routerLink="/system/profile"><button type="button" class="my_profile">My Profile</button></a><hr>
+          <button type="button" class="log_out" (click)="logout()">Log out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

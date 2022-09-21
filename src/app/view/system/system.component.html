@@ -1,0 +1,13 @@
+<div class="page-container" (click)="closeUserInfo()">
+  <div [ngClass]="{'resized-navbar':sidenavValue, 'inner-width-resize': sidenavValue}" class="navbar-container">
+    <app-sidenav [sidenavValue]="sidenavValue"></app-sidenav>
+  </div>
+  <div class="main-container">
+    <div>
+      <app-header (sideNavEmitter)="showSidenav($event)" [userInfoIsOpened]="userInfoIsOpened" (infoIsOpened)="setCloseUserInfoValue($event)"></app-header>
+    </div>
+    <div class="data-container">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,213 @@
+<div class="dashboard">
+    <app-header-dashboard [taskData]="taskData"></app-header-dashboard>
+    <div class="today-upcoming-blocks">
+        <div class="left-block">
+            <header>
+                <span class="title">To Do List</span>
+                <span class="d-flex">
+                    <mat-form-field appearance="fill" class="hidden">
+                      <mat-date-range-input [rangePicker]="picker" [hidden]="true">
+                        <input matStartDate placeholder="Start date" [value]="rangeTaskFilter.start"
+                               (dateChange)="selectToDoWeek($event)">
+                        <input matEndDate placeholder="End date" [value]="rangeTaskFilter.end">
+                      </mat-date-range-input>
+                      <mat-date-range-picker [calendarHeaderComponent]="calendarHeaderComponent"
+                                             #picker></mat-date-range-picker>
+                    </mat-form-field>
+                    <button (click)="picker.open()" class="filter"
+                            [ngClass]="{'active': (rangeTaskFilter.start && rangeTaskFilter.end)}">
+                        {{(rangeTaskFilter.start | date:'dd/MM/YYYY') + ' - ' + (rangeTaskFilter.end | date:'dd/MM/YYYY')}}
+                        <span class="toggle reset-filter"></span>
+                    </button>
+                    <button [matMenuTriggerFor]="filterMenu">
+                        <img src="assets/icons/content-icons/filter-solid.svg" alt="add" class="d-block">
+                    </button>
+                    <mat-menu #filterMenu="matMenu" class="filter-menu">
+                      <div class="filter-menu__item" *ngFor="let filter of taskFilterOptions"
+                           (click)="$event.stopPropagation()">
+                          <label class="filter-menu__checkbox">
+                              <input
+                                      type="checkbox"
+                                      [class.active]="filter.isActive"
+                                      [checked]="filter.isActive"
+                                      (change)="setTaskFilterOption($event, filter.id)"
+                                      name="group"
+                              >
+                              {{filter.title}}
+                          </label>
+                      </div>
+                    </mat-menu>
+                </span>
+            </header>
+            <div class="todo-days">
+                <button class="todo-days__arrow todo-days__arrow_left" mat-icon-button
+                        [disabled]="indexOfDay({date: activeTodoDate}) === 0" (click)="setPreviousDayAsActive()">
+                    <mat-icon>
+                        <img src="./assets/icons/content-icons/arrow-left_dark.svg" alt="Arrow Left">
+                    </mat-icon>
+                </button>
+                <div class="todo-days__element" *ngFor="let day of listOfDays"
+                     [class.todo-days__element_active]="day.date.getDay() === activeTodoDate.getDay()"
+                     (click)="setCurrentDay(day)">
+                    <span class="todo-days__week-day">{{day.date | moment: 'ddd'}}</span>
+                    <span class="todo-days__date">{{day.date.getDate()}}</span>
+                </div>
+                <button class="todo-days__arrow todo-days__arrow_right" mat-icon-button
+                        [disabled]="indexOfDay({date: activeTodoDate}) === listOfDays.length - 1"
+                        (click)="setNextDayAsActive()">
+                    <mat-icon>
+                        <img src="./assets/icons/content-icons/arrow-right_dark.svg" alt="Arrow Right">
+                    </mat-icon>
+                </button>
+            </div>
+            <ul class="task-ul task-loader" *ngIf="loaderTask; else taskModel">
+                <mat-spinner></mat-spinner>
+            </ul>
+            <ng-template #taskModel>
+                <ul class="task-ul scroll" cdkDropList cdkDropListLockAxis="y" [cdkDropListData]="taskDataFiltered"
+                    (cdkDropListDropped)="dropTodoElement($event)">
+                    <div class="not-found" *ngIf="taskDataFiltered.length === 0">
+                        <img src="assets/icons/not-found/task-not-found.svg" alt="task not found">
+                        <h2>It’s Empty</h2>
+                        <p>Look like you haven't added any new lead yet...!!!</p>
+                        <button class="btn-create-task" (click)="openCreateTask()">Create Task</button>
+                    </div>
+                    <li *ngFor="let item of taskDataFiltered; let index = index" cdkDrag class="task-li">
+                        <span class="d-flex align-items-center">
+                            <div class="checkbox" (click)="spentTimeTask(index)">
+                            <container-element *ngIf="!checkIfFailed(item); else failedIcon" [ngSwitch]="item.status">
+                                <img src="assets/icons/content-icons/unchecked-v.svg" alt="uncheckbox"
+                                     *ngSwitchCase="0">
+                                <img src="assets/icons/content-icons/checked-v.svg" alt="checked" *ngSwitchCase="1">
+                                <img src="../../../../../../assets/icons/content-icons/failed1.svg" alt="failed"
+                                     *ngSwitchCase="2">
+                            </container-element>
+                            <ng-template #failedIcon>
+                                <container-element>
+                                    <img src="../../../../../../assets/icons/content-icons/failed1.svg" alt="failed">
+                                </container-element>
+                            </ng-template>
+                        </div>
+                        <div class="texts">
+                            <span class="title" (click)="(!item.status && !checkIfFailed(item)) && openUpdateTask(index, TaskCreateStep.TitleAndDescription)" [class.title_checked]="item.status === 1">{{item.title}}</span>
+                            <div class="d-flex">
+                                <span class="day" (click)="(!item.status && !checkIfFailed(item)) && openUpdateTask(index, TaskCreateStep.SelectDuration)">{{item.planned_time < 60 ? item.planned_time + ' minute' : item.planned_time < 240 ? item.planned_time / 60 + ' hours' : item.planned_time === 240 ? 'Half day' : item.planned_time === 480?'Full day':customPlannedTime(item.planned_time)}} </span>
+                                <span class="day pipe" *ngIf="item.status"></span>
+                                <span title="start" class="day"
+                                      *ngIf="item.status">Actual time {{item.spent_time < 60 ? item.spent_time + ' minute' : item.spent_time < 240 ? item.spent_time / 60 + ' hours' : item.spent_time === 240 ? 'Half day' : item.planned_time === 480?'Full day':customPlannedTime(item.spent_time)}}</span>
+                                <span class="badge" *ngIf="item.project_id">{{projectNameData[item.project_id]}}</span>
+                            </div>
+                        </div>
+                        </span>
+                        <span>
+                            <button [matMenuTriggerFor]="menu" class="menu"><img
+                                    src="assets/icons/content-icons/menu-point.svg" alt="menu"></button>
+                            <mat-menu #menu="matMenu" xPosition="before">
+                                <button class="menu-item" mat-menu-item (click)="openTaskView(item)">View</button>
+                                <button *ngIf="!item.status && !checkIfFailed(item)" class="menu-item" mat-menu-item
+                                        (click)="duplicateTask(index)">Duplicate</button>
+                                <button *ngIf="!item.status && !checkIfFailed(item)" class="menu-item" mat-menu-item
+                                        (click)="openUpdateTask(index, TaskCreateStep.SelectDay)">Change date</button>
+                                <button *ngIf="!checkIfFailed(item)" class="menu-item" mat-menu-item
+                                        (click)="deleteTask(index)">Delete</button>
+                            </mat-menu>
+                        </span>
+                        <div class="task-li__placeholder" *cdkDragPlaceholder>
+                            <span>
+                                Release the mouse button to apply the list change.
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+                <div class="task-create" *ngIf="taskDataFiltered.length !== 0">
+                    <button class="btn-create-task" color="primary" (click)="openCreateTask()">
+                        Create
+                    </button>
+                </div>
+            </ng-template>
+        </div>
+        <div class="absent-team-members-block">
+            <span class="title">Absent team members </span>
+            <ul class="team-ul loader" *ngIf="loaderAbsentMembers; else absentMembersModel">
+                <mat-spinner></mat-spinner>
+            </ul>
+            <ng-template #absentMembersModel>
+                <ul class="team-ul scroll" [ngClass]="{'d-flex': absentMembersData.length === 0}">
+                    <li class="teammates" *ngFor="let item of absentMembersData">
+                        <img onerror="this.onerror=null;this.src='assets/icons/profile-images/profile-image.png'"
+                             src="https://manage-company.app{{item.photo}}" alt="" class="user-photo">
+                        <div class="name-and-leave">
+                            <span class="name-surname">{{item.name}}</span>
+                            <span class="leave" [ngSwitch]="item.type">
+                                {{item.type}}
+                                <span *ngSwitchCase="'Vacation'">{{item.start_date | date}}
+                                    - {{item.end_date | date}}</span>
+                                <span *ngSwitchCase="'Hourly Leave'">{{item.start_date | date:"HH:mm"}}
+                                    - {{item.end_date | date:"HH:mm"}}</span>
+                            </span>
+                        </div>
+                    </li>
+                    <div class="not-found absent-members" *ngIf="absentMembersData.length === 0">
+                        <img src="assets/icons/not-found/events-not-found.svg" alt="events not found">
+                        <h2>It’s Empty</h2>
+                    </div>
+                </ul>
+            </ng-template>
+        </div>
+    </div>
+
+    <div class="bottom-blocks">
+        <div class="event-block">
+            <span class="title">
+                Upcoming events
+            </span>
+            <ul class="card-ul event-loader" *ngIf="loaderEvent">
+                <mat-spinner></mat-spinner>
+            </ul>
+            <ul class="card-ul scroll" *ngIf="!loaderEvent">
+                <div class="not-found event" *ngIf="eventList.length === 0">
+                    <img src="assets/icons/not-found/events-not-found.svg" alt="events not found">
+                    <h2>It’s Empty</h2>
+                </div>
+                <li class="card-li" *ngFor="let item of eventList" (click)="openPopUpEvent(item.id)">
+                    <div class="cards">
+                        <div class="image-side">
+                            <img class="image" onerror="this.src='assets/icons/event-photos/default-event.svg'"
+                                 src="https://manage-company.app{{item.photo}}" alt="photo">
+                        </div>
+                        <div class="content">
+                            <div class="date-and-title">
+                                <div class="desc-title">
+                                    <span class="title">{{item.title}}</span>
+                                </div>
+                            </div>
+                            <span class="options margin-top">
+                                <span class="icon man-full"><img class="option-icon"
+                                                                 src="assets/icons/content-icons/profile.svg"
+                                                                 alt=""></span>
+                                <span class="grey-text space">{{item.organizer.name}}</span>
+                            </span>
+                            <span class="options">
+                                <span class="icon"><img class="option-icon" src="assets/icons/event-photos/calendar.svg"
+                                                        alt="calendar"></span>
+                                <span class="grey-text space">{{item.start_date | date}}
+                                    | {{item.start_date | date:"HH:mm"}} - {{item.end_date | date:"HH:mm"}}</span>
+                            </span>
+                            <span class="options">
+                                <span class="icon full"><img class="option-icon location"
+                                                             src="assets/icons/event-photos/map.svg"
+                                                             alt="location"></span>
+                                <span class="grey-text space">{{item.place}}</span>
+                            </span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+
+        </div>
+        <div class="right-block">
+            <app-ongoing-projects></app-ongoing-projects>
+        </div>
+    </div>
+</div>

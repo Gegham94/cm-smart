@@ -1,0 +1,91 @@
+<div class="modals">
+<div class="title-and-close">
+    <p class="title">Add new education center  or work place</p>
+    <img mat-dialog-close class="close" src="../../../../../../../assets/icons/content-icons/close1.svg" alt="">
+
+</div>
+    <div class="switcher">
+        <span [ngClass]="{'active': switched === 1}" (click)="switcher(1)" class="work">Work</span>
+        <span [ngClass]="{'active': switched === 2}" (click)="switcher(2)" class="education">Education</span>
+    </div>
+
+    <div *ngIf="switched === 1; else education" class="work">
+
+            <div class="dropdown first-drop-down">
+                <button (click)="openDropDown(1)" class="btn btn-secondary dropdown-toggle education-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Company name
+                </button>
+                <div [ngClass]="{'show':dropDownOpen===1}" class="dropdown-menu education-dd" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button (click)="openDropDown(2)" class="btn btn-secondary dropdown-toggle education-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Company location
+                </button>
+                <div [ngClass]="{'show':dropDownOpen===2}" class="dropdown-menu education-dd" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button (click)="openDropDown(3)" class="btn btn-secondary dropdown-toggle education-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Role
+                </button>
+                <div [ngClass]="{'show':dropDownOpen===3}" class="dropdown-menu education-dd" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+    <ng-template #education>
+        <div  class="work">
+            <div class="dropdown first-drop-down">
+                <button (click)="openDropDown(1)" class="btn btn-secondary dropdown-toggle education-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Education Center
+                </button>
+                <div [ngClass]="{'show':dropDownOpen===1}" class="dropdown-menu education-dd" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button (click)="openDropDown(2)" class="btn btn-secondary dropdown-toggle education-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Profession title
+                </button>
+                <div [ngClass]="{'show':dropDownOpen===2}" class="dropdown-menu education-dd" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button (click)="openDropDown(3)" class="btn btn-secondary dropdown-toggle education-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Degree
+                </button>
+                <div [ngClass]="{'show':dropDownOpen===3}" class="dropdown-menu education-dd" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+<button class="add-btn">Add</button>
+</div>

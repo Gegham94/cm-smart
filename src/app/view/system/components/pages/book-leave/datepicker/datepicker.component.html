@@ -1,0 +1,8 @@
+<div *ngIf="(loader$ | async) !== false;else calendar" class="loader-datepicker"><mat-spinner></mat-spinner></div>
+<ng-template #calendar>
+    <div class="not-found" *ngIf="!remainingDays">
+        <img src="assets/icons/not-found/calendar-not-found.svg" alt="You can not take a vacation" class="qyal">
+        <h2>You can not take a day off</h2>
+    </div>
+    <mat-calendar *ngIf="remainingDays >= 1" [dateClass]="dateClass" [headerComponent]="datepickerHeader" [minDate]="minDate" [maxDate]="maxDate" [startAt]="date" (click)="setSelectedDate()" [(selected)]="date"></mat-calendar>
+</ng-template>

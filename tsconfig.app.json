@@ -1,0 +1,68 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": [],
+    "paths": {
+      "@env": [
+        "src/environments/environment"
+      ],
+      "@animations/*": [
+        "src/app/core/animations/*"
+      ],
+      "@enums/*": [
+        "src/app/core/enums/*"
+      ],
+      "@guards/*": [
+        "src/app/core/guards/*"
+      ],
+      "@helpers/*": [
+        "src/app/core/helpers/*"
+      ],
+      "@models/*": [
+        "src/app/core/models/*"
+      ],
+      "@services/*": [
+        "src/app/core/services/*"
+      ],
+      "@api/*": [
+        "src/app/core/api-services/*"
+      ],
+      "@new_api/*": [
+        "src/app/core/api/*"
+      ],
+      "@validators/*": [
+        "src/app/core/validators/*"
+      ],
+      "@interceptors/*": [
+        "src/app/core/interceptors/*"
+      ],
+      "@modules/*": [
+        "src/app/shared/modules/*"
+      ],
+      "@components/*": [
+        "src/app/shared/components/*"
+      ],
+      "@directives/*": [
+        "src/app/shared/directives/*"
+      ],
+      "@pipes/*": [
+        "src/app/shared/pipes/*"
+      ],
+      "@svg/*": [
+        "src/app/shared/svg/*"
+      ], 
+      "@shared": [
+        "src/app/shared/shared.module"
+      ], 
+    }
+  },
+  "files": [
+    "src/main.ts",
+    "src/polyfills.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts"
+  ]
+}

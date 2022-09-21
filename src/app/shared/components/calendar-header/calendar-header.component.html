@@ -1,0 +1,12 @@
+<div class="calendar-header">
+    <mat-select class="calendar-header__select calendar-header__select_month" placeholder="Month" [value]="selectedMonth" (selectionChange)="setMonth($event)">
+        <mat-option *ngFor="let month of monthList" [value]="month.value" [disabled]="month.value < currentMonth">
+            {{month.displayName}}
+        </mat-option>
+    </mat-select>
+    <mat-select class="calendar-header__select calendar-header__select_year" placeholder="Year" disabled [value]="selectedYear">
+        <mat-option [value]="selectedYear">
+            {{selectedYear}}
+        </mat-option>
+    </mat-select>
+</div>

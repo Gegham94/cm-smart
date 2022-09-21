@@ -1,0 +1,118 @@
+<div class="content" (click)="openDataRangeSelection(true)">
+  <div class="note_counts">
+    <div class="count_tab">
+      <div class="count_name">
+        <span class="count">5</span>
+        <span class="name">Employees</span>
+      </div>
+      <img src="/assets/icons/content-icons/employees-flat-style.svg">
+    </div>
+    <div class="count_tab">
+      <div class="count_name">
+        <span class="count">15</span>
+        <span class="name">Internship</span>
+      </div>
+      <img src="/assets/icons/content-icons/internship-illustrations.svg">
+    </div>
+    <div class="count_tab">
+      <div class="count_name">
+        <span class="count">25</span>
+        <span class="name">Interviewee</span>
+      </div>
+      <img src="/assets/icons/content-icons/interviewe-illustrations.svg">
+    </div>
+  </div>
+
+  <div class="team_progress">
+    <span class="title">Team Progress</span>
+    <div class="diagram_content">
+
+      <div class="data_range_selection" >
+        <div class="display_range" (click)="openDataRangeSelection(); $event.stopPropagation()">
+          <span class="selected_range">{{dataRangeOptions[0].start}} - {{dataRangeOptions[0].end}}</span>
+          <i class="arrow"></i>
+        </div>
+        <div class="data_list">
+          <ul [ngClass]="{'toggle_data_list':isOpenDataList}">
+            <li *ngFor="let range of dataRangeOptions">{{range.start}} - {{range.end}}</li>
+          </ul>
+        </div>
+      </div>
+
+      <ngx-charts-line-chart
+        (window:resize)="onResize($event)"
+        [view]="view"
+        [scheme]="colorScheme"
+        [legend]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [timeline]="true"
+        [results]="chartData"
+        (select)="onSelect($event)"
+        (activate)="onActivate($event)"
+        (deactivate)="onDeactivate($event)"
+        id="about-chart"
+      >
+      </ngx-charts-line-chart>
+    </div>
+  </div>
+
+  <div class="projects">
+    <span class="title">Projects</span>
+    <div class="projects_content">
+      <div class="project_info">
+        <span>Frontend</span>
+        <span class="active_projects">Active projects - </span>
+        <div class="active_projects_image">
+          <img class="project_logo" src="/assets/icons/content-icons/active-project.svg">
+        </div>
+      </div>
+      <div class="project_info">
+        <span>Backend</span>
+        <span class="active_projects">Active projects - </span>
+        <div class="active_projects_image">
+          <img class="project_logo" src="/assets/icons/content-icons/active-project.svg">
+        </div>
+      </div>
+      <div class="project_info">
+        <span>Mobile</span>
+        <span class="active_projects">Active projects - </span>
+        <div class="active_projects_image">
+          <img class="project_logo" src="/assets/icons/content-icons/active-project.svg">
+        </div>
+      </div>
+      <div class="project_info">
+        <span>Design</span>
+        <span class="active_projects">Active projects - </span>
+        <div class="active_projects_image">
+          <img class="project_logo" src="/assets/icons/content-icons/active-project.svg">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="attached_documents">
+    <span class="title">Attached documents</span>
+    <div class="documents">
+
+      <div class="document_list">
+        <div class="bottom_line">
+          <div class="download_doc">
+            <img src="/assets/icons/content-icons/doc-type-icon.svg" class="doc_type_icon">
+            <div class="doc_title_data">
+              <span class="doc_title">Title</span>
+              <span class="doc_date">01.02.2002</span>
+            </div>
+          </div>
+          <a href="" class="download_btn" download>
+            <img src="/assets/icons/content-icons/paper-download.svg">
+          </a>
+        </div>
+      </div>
+
+      <div class="document_content_bg">
+        <img src="/assets/icons/content-icons/document-diagram-icon.svg">
+      </div>
+    </div>
+  </div>
+</div>

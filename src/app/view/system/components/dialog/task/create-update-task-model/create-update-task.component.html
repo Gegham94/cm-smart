@@ -1,0 +1,38 @@
+<div class="dialog-container create-update-dialog">
+    <button mat-icon-button class="create-update-dialog__close-button" (click)="closeDialog()">
+        <mat-icon>
+            <img src="./assets/icons/content-icons/close.svg" alt="Times">
+        </mat-icon>
+    </button>
+    <div class="create-update-dialog__header">
+        <h3 class="create-update-dialog__title">{{currentStep.title}}</h3>
+    </div>
+    <div class="create-update-dialog__content">
+        <ng-container [ngSwitch]="currentStep.step">
+            <app-select-task-day *ngSwitchCase="TaskCreateStep.SelectDay" [dayFormGroup]="selectDayForm"></app-select-task-day>
+            <app-select-task-project *ngSwitchCase="TaskCreateStep.ProjectsOrOrganization" [hasDefaultTitle]="!!dialogData?.taskToUpdate" [projectFormGroup]="projectsForm" [infoFormGroup]="infoForm"></app-select-task-project>
+            <app-task-info *ngSwitchCase="TaskCreateStep.TitleAndDescription" [infoFormGroup]="infoForm"></app-task-info>
+            <app-select-task-duration *ngSwitchCase="TaskCreateStep.SelectDuration" [durationFormGroup]="durationForm"></app-select-task-duration>
+        </ng-container>
+    </div>
+    <div class="create-update-dialog__action-keeper">
+        <ng-container *ngIf="!dialogData || !dialogData.taskToUpdate; else updateAction">
+            <button class="create-update-dialog__action" (click)="previousStep()" *ngIf="!backButtonDisabled">
+                Back
+            </button>
+            <button
+                class="create-update-dialog__action"
+                (click)="currentStep.step === TaskCreateStep.SelectDuration? addTask() : nextStep()"
+                [disabled]="!currentFormValid"
+            >
+                {{currentStep.step === TaskCreateStep.SelectDuration ? 'Add' : 'Next'}}
+            </button>
+        </ng-container>
+    </div>
+</div>
+
+<ng-template #updateAction>
+    <button class="create-update-dialog__action" (click)="updateTask()">
+        Update
+    </button>
+</ng-template>

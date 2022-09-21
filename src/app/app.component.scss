@@ -1,0 +1,22 @@
+::ng-deep{
+	.toast-success{
+		font-family: 'Montserrat', sans-serif;
+		font-style: normal;
+		background-color: #38A98E;
+		background-image: none !important;
+		padding: 10px 18px !important;
+		background: #38A98E;
+		border-radius: 4px !important;
+		border-left: 5px solid #347474;
+	}
+	.toast-title{
+		color: #F6F6F6;
+		font-size: 14px;
+		font-weight: 500;
+	}
+	.toast-message{
+		color: #F6F6F6;
+		font-size: 14px;
+		font-weight: 500;
+	}
+}

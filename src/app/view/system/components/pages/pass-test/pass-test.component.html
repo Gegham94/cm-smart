@@ -1,0 +1,32 @@
+<div class="content">
+  <div class="pass_test_container">
+   
+    <div class="header">
+      <p class="content_title">Choose language</p>
+      <a class="close_pass_test" (click)="closePassTest()"></a>
+    </div>
+
+    <div class="language_checkbox_content">
+      <div id="language_selections">
+        <div class="language">
+          <label class="language_container" for="english">English
+            <input type="checkbox" id="english" name="group" (click)="selectItem($event.target)">
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="language">
+          <label class="language_container" for="russian">Russian
+            <input type="checkbox" id="russian" name="group" (click)="selectItem($event.target)">
+            <span class="checkmark"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="pass_test_button">
+      <a class="choose_btn" *ngIf="!isSelected" (click)="chooseLanguage()">Choose</a>
+      <a class="choose_btn" *ngIf="isSelected" href="https://docs.google.com/forms" target="blank" (click)="chooseLanguage()">Choose</a>
+    </div>
+
+  </div>
+</div>

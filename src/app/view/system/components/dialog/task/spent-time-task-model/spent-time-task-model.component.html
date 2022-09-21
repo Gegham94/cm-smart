@@ -1,0 +1,81 @@
+<div class="dialog-container">
+    <div [ngClass]="{'opacity-0':loader}">
+        <header>
+            <h2 class="title">Duration</h2>
+            <a class="close" mat-dialog-close></a>
+        </header>
+
+        <h3 class="space">Select actual duration you spent on this task</h3>
+        <form [formGroup]="form">
+            <div class="container-radio">
+                <label class="item">
+                    <input type="radio" name="duration" formControlName="duration" value="15"
+                        (change)="disableOtherForm()">
+                    <span class="checkmark">15 minute</span>
+                </label>
+                <label class="item">
+                    <input type="radio" name="duration" formControlName="duration" value="30"
+                        (change)="disableOtherForm()">
+                    <span class="checkmark">30 minute</span>
+                </label>
+                <label class="item">
+                    <input type="radio" name="duration" formControlName="duration" value="60"
+                        (change)="disableOtherForm()">
+                    <span class="checkmark">1 hours</span>
+                </label>
+                <label class="item">
+                    <input type="radio" name="duration" formControlName="duration" value="120"
+                        (change)="disableOtherForm()">
+                    <span class="checkmark">2 hours</span>
+                </label>
+                <label class="item">
+                    <input type="radio" name="duration" formControlName="duration" value="180"
+                        (change)="disableOtherForm()">
+                    <span class="checkmark">3 hours</span>
+                </label>
+                <label class="item">
+                    <input type="radio" name="duration" formControlName="duration" value="240"
+                        (change)="disableOtherForm()">
+                    <span class="checkmark">Half day</span>
+                </label>
+                <label class="item">
+                    <input type="radio" name="duration" formControlName="duration" value="480"
+                        (change)="disableOtherForm()">
+                    <span class="checkmark">Full day</span>
+                </label>
+                <label class="item">
+                    <input type="radio" name="duration" [checked]="otherChecked" (change)="otherStateChange($event)">
+                    <span class="checkmark">Other</span>
+                </label>
+            </div>
+            <div class="select-duration__other" *ngIf="otherChecked">
+                <div class="select-duration__other-group select-duration__other-group_hour">
+                    <input class="select-duration__other-input" type="text" data-index="0" placeholder="0" mask="0"
+                        (focus)="hourDozens = null" [(ngModel)]="hourDozens" [ngModelOptions]="{standalone: true}"
+                        (input)="setFormControl($event)">
+                    <input class="select-duration__other-input" type="text" data-index="1" placeholder="0" mask="0"
+                        (focus)="hour = null" [(ngModel)]="hour" [ngModelOptions]="{standalone: true}"
+                        (input)="setFormControl($event)">
+                </div>
+                <mat-icon class="select-duration__other-separator">
+                    <img src="./assets/icons/content-icons/vertical-dots.svg" alt="Vertical Dots">
+                </mat-icon>
+                <div class="select-duration__other-group select-duration__other-group_minutes">
+                    <input class="select-duration__other-input" type="text" data-index="2" placeholder="0" mask="m"
+                        (focus)="minuteDozens = null" [patterns]="customPatterns" [(ngModel)]="minuteDozens"
+                        [ngModelOptions]="{standalone: true}" (input)="setFormControl($event)">
+                    <input class="select-duration__other-input" type="text" data-index="3" placeholder="0" mask="0"
+                        (focus)="minute = null" [(ngModel)]="minute" [ngModelOptions]="{standalone: true}"
+                        (input)="setFormControl($event)">
+                </div>
+            </div>
+        </form>
+        <footer class="row d-flex flex-row-reverse gap-3">
+            <button class="col-3" (click)="submit()"
+                [disabled]="form.invalid || (otherChecked && !isOtherDurationValid)">Select</button>
+        </footer>
+    </div>
+    <div *ngIf="loader" class="loader-block">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>

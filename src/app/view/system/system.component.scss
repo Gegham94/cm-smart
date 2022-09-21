@@ -1,0 +1,39 @@
+.page-container{
+  height: 100%;
+  display: flex;
+  background-color: #e9f1f1;
+  
+}
+.user_info_display{
+  display: flex;
+}
+.navbar-container{
+  width: 310px;
+  &.resized-navbar {
+    width: 105px;
+  }
+}
+.main-container{
+  background-color: #E9F1F1;
+  width: 100%;
+  height: 100vh;
+}
+.data-container{
+  height: 100%;
+  padding: 20px 0 80px 18px;
+}
+.resized-navbar{
+  min-width: 74px !important;
+  width: 74px !important;
+}
+.inner-width-resize{
+  transform: translateX(0px) !important;
+}
+@media(max-width:1309px){
+  .navbar-container{
+    position: relative;
+    height: 100%;
+    z-index: 9;
+    width: 0!important;
+  }
+}

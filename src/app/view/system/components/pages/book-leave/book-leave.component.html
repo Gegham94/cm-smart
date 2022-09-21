@@ -1,0 +1,100 @@
+
+<div class="content">
+  <a class="closeBookLeave" (click)="closeBookLeave(false)"></a>
+  <div class="left-sections">
+    <div class="left-section-header">
+      <span>Book your leave time</span>
+    </div>
+    <div class="sections">
+      <div class="tabs">
+        <div class="tab" id="hourly_leave" (click)="clickTab('hourly_leave')" [ngClass]="{'selected':selectedTab==='hourly_leave'}">
+          <span>Hourly leave</span>
+        </div>
+        <div class="tab" id="day_off" (click)="clickTab('day_off')" [ngClass]="{'selected':selectedTab==='day_off'}">
+          <span>Day off</span>
+        </div>
+        <div class="tab" id="work_remotely" (click)="clickTab('work_remotely')" [ngClass]="{'selected':selectedTab==='work_remotely'}">
+          <span>Work remotely</span>
+        </div>
+        <div class="tab" id="vacation" (click)="clickTab('vacation')" [ngClass]="{'selected':selectedTab==='vacation'}">
+          <span>Vacation</span>
+        </div>
+      </div>
+    </div>
+      <div class="datepicker" [ngSwitch]="selectedTab" *ngIf="isLoadedDayOffs">
+        <app-hourly-time-selection *ngSwitchCase="'hourly_leave'" [dayOffs]="dayOffsDayList" (isOldLeave)="isOldLeave = $event" [leavesData]="leavesData" (bookedHourData)="getSelectedTime($event)" (errorWorkTimeOutput)="submitDisabled = !$event"></app-hourly-time-selection>
+        <app-datepicker-range *ngSwitchCase="'vacation'" (isOldLeave)="isOldLeave = $event" (vacationIsOver)="setVacationIsOver($event)" [dateRange]=dateRange (dateRangeSelected)="getSelectedDateRange($event)" (pickerError)="submitDisabled = $event" [dayOffs]="dayOffsDayList" [remainingDays]="userBookedDaysData.remainingDays + vacationDaysRemaining"></app-datepicker-range>
+        <app-datepicker *ngSwitchCase="'day_off'" (isOldLeave)="isOldLeave = $event" (vacationIsOver)="setVacationIsOver($event)" [date]=dateDayOff (headerError)="submitDisabled = $event" (dateSelected)="getSelectedDate($event)" [dayOffs]="dayOffsDayList" [remainingDays]="userBookedDaysData.remainingDays + datOffRemaining"></app-datepicker>
+        <app-datepicker *ngSwitchCase="'work_remotely'" (isOldLeave)="isOldLeave = $event" (vacationIsOver)="setVacationIsOver($event)" [date]=dateWorkRemotely (headerError)="submitDisabled = $event" (dateSelected)="getSelectedDate($event)" [dayOffs]="dayOffsDayList" [remainingDays]="1"></app-datepicker>
+      </div>
+    <ng-container *ngIf="!vacationIsOver">
+      <div class="description" [ngSwitch]="selectedTab">
+        <textarea *ngSwitchCase="'hourly_leave'" placeholder="Description" rows="4"
+          [value]="hourlyLeaveDescriptionText"
+          (input)="hourlyLeaveDescriptionText = $any($event.target).value"
+          (input)="readyForBook()"
+          (output)="readyForBook()"
+        ></textarea>
+        <textarea *ngSwitchCase="'vacation'" placeholder="Description" rows="4"
+          [value]="vacationDescriptionText"
+          (input)="vacationDescriptionText = $any($event.target).value"
+          (input)="readyForBook()"
+          (output)="readyForBook()"
+        ></textarea>
+        <textarea *ngSwitchCase="'day_off'" placeholder="Description" rows="4"
+          [value]="dayOffDescriptionText"
+          (input)="dayOffDescriptionText = $any($event.target).value"
+          (input)="readyForBook()"
+          (output)="readyForBook()"
+        ></textarea>
+        <textarea *ngSwitchCase="'work_remotely'" placeholder="Description" rows="4"
+          [value]="workRemotelyDescriptionText"
+          (input)="workRemotelyDescriptionText = $any($event.target).value"
+          (input)="readyForBook()"
+          (output)="readyForBook()"
+        ></textarea>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="right-section">
+    <div class="right-section-header">
+      <span class="right-section-title">Your request</span>
+    </div>
+    <div class="booked-days" [ngSwitch]="selectedTab">
+      <app-hourly-leave *ngSwitchCase="'hourly_leave'" [startTime]="displaySelectedTime"  [displaySelectedDate]="displaySelectedDate" [displayLeaveTime]="displayLeaveTime"></app-hourly-leave>
+      <app-day-off *ngSwitchCase="'day_off'" [displaySelectedDayOffDate]="displaySelectedDayOffDate"></app-day-off>
+      <app-work-remotely *ngSwitchCase="'work_remotely'" [displaySelectedWorkRemotelyDate]="displaySelectedWorkRemotelyDate"></app-work-remotely>
+      <app-vacation *ngSwitchCase="'vacation'" [displaySelectedDateRange]="displaySelectedDateRange"></app-vacation>
+    </div>
+    <div class="right-section-footer">
+      <span class="days annaul">{{userBookedDaysData.annualLeave}} days of Annual Leave</span>
+      <span class="days remaining">{{userBookedDaysData.remainingDays + vacationDaysRemaining + datOffRemaining}} days Remaining</span>
+
+      <div *ngIf="!userBookedDaysData.isEditDayOffs">
+        <div class="book-btn" [ngStyle]="!isReadyToBook || submitDisabled || isOldLeave ?{'opacity':'0.4','pointer-events':'none'}:{'opacity':'1','pointer-events': 'all'}">
+          <button type="button" [disabled]="loading || submitDisabled || isOldLeave" (click)="bookDay()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Book
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="userBookedDaysData.isEditDayOffs">
+        <div class="book-btn" [ngStyle]="!isReadyToBook || submitDisabled || submitDisabledHourlyLeave || isOldLeave?{'opacity':'0.4','pointer-events':'none'}:{'opacity':'1','pointer-events': 'all'}">
+          <button type="button" [disabled]="loading || submitDisabled || submitDisabledHourlyLeave || isOldLeave" (click)="bookDay(true)">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Update
+          </button>
+        </div>
+        <div class="cancel-btn" [ngClass]="{'disabled':isOldLeave}">
+          <button type="button" [disabled]="loadingCancel || isOldLeave" (click)="deleteBookedDay()">
+            <span *ngIf="loadingCancel" class="spinner-border spinner-border-sm mr-1"></span>
+            Cancel leave
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

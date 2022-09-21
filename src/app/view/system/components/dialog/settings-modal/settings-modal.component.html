@@ -1,0 +1,27 @@
+<header>
+    <img src="assets/icons/content-icons/settings-icon.svg" alt="settings">
+    <h4>Settings</h4>
+</header>
+<div class="content">
+    <h3>Select your working hours</h3>
+
+    <form [formGroup]="form">
+        <label class="radio-btn">
+            <input type="radio" name="working" formControlName="working" value="9">
+            <span class="checkmark">9:00 AM- 18:00PM</span>
+        </label>
+        <label class="radio-btn">
+            <input type="radio" name="working" formControlName="working" value="10">
+            <span class="checkmark">10:00 AM- 19:00PM</span>
+        </label>
+        <h3>Select your lunch hours</h3>
+        <label class="radio-btn">
+            <input type="radio" name="lunch" formControlName="lunch" value="13">
+            <span class="checkmark">13:00 PM- 14:00PM</span>
+        </label>
+        <div class="time-picker">
+            <input type="text" placeholder="Select Time">
+            <img src="assets/icons/content-icons/clock.svg" alt="calendar">
+        </div>
+    </form>
+</div>

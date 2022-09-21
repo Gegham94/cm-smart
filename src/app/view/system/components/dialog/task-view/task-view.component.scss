@@ -1,0 +1,91 @@
+.dialog-container{
+  ::ng-deep{
+    ::-webkit-scrollbar {
+      width: 2px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #ffffff;
+      margin-top: 5px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #949494;
+      border-radius: 20px;
+    }
+  }
+}
+
+.task-view {
+  padding: 36px 30px;
+  position: relative;
+
+  &__close-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 32px;
+    letter-spacing: 0.25px;
+    color: #11493E;
+  }
+
+  &__property {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 32px;
+    color: #11493E;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .mat-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &-keeper {
+      margin-top: 30px;
+    }
+  }
+
+  &__value {
+    margin-top: 20px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+    letter-spacing: 0.25px;
+    color: #616062;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &_description {
+      max-height: 96px;
+      overflow-y: auto;
+    }
+  }
+
+  &__action-button {
+    width: 254px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.25px;
+    color: #FCFCFC;
+    padding: 8px 16px;
+    height: 32px;
+    background: #347474;
+    border-radius: 4px;
+    border: 0;
+    outline: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    margin-inline: auto;
+  }
+}

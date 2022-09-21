@@ -1,0 +1,60 @@
+<div class="title title_dropdown">
+    <span>Open projects</span>
+    <mat-icon class="title__dropdown-arrow" [matMenuTriggerFor]="projectFilterMenu">
+        <img src="./assets/icons/content-icons/arrow-down-dark.svg" alt="Drop Down Arrow">
+    </mat-icon>
+    <mat-menu #projectFilterMenu="matMenu" class="project-filter-menu">
+        <button mat-menu-item (click)="fetchProjects(false)">
+            <span>All Projects</span>
+        </button>
+        <button mat-menu-item (click)="fetchProjects(true)">
+            <span>My Projects</span>
+        </button>
+    </mat-menu>
+</div>
+<div class="projects">
+    <ng-container *ngIf="!isLoading; else loading">
+        <table *ngIf="projectList && projectList.length > 0; else empty" class="projects__table" mat-table [dataSource]="projectList">
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Project</th>
+                <td mat-cell *matCellDef="let element">{{element.title}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="lead">
+                <th mat-header-cell *matHeaderCellDef>Team Lead</th>
+                <td mat-cell *matCellDef="let element">{{getLeadName(element.employees)}}</td>
+            </ng-container>
+
+<!--            Temporary commented cause of missing property from API-->
+<!--            <ng-container matColumnDef="started_at">-->
+<!--                <th mat-header-cell *matHeaderCellDef>Started at</th>-->
+<!--                <td mat-cell *matCellDef="let element">Started Date</td>-->
+<!--            </ng-container>-->
+
+            <ng-container matColumnDef="members">
+                <th mat-header-cell *matHeaderCellDef>Team members</th>
+                <td mat-cell *matCellDef="let element">
+                    <img class="projects__employee-image" *ngFor="let employee of element.employees"
+                         onerror="this.onerror=null;this.src='assets/icons/profile-images/profile-image.png'"
+                         [src]="fileBaseUrl + employee.photo" [alt]="employee.name" [matTooltip]="employee.name">
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </ng-container>
+</div>
+
+<ng-template #loading>
+    <div class="loader-block">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>
+
+<ng-template #empty>
+    <div class="empty-block">
+        <img src="./assets/icons/not-found/task-not-found.svg" alt="Not Found">
+        <h2>It’s Empty</h2>
+    </div>
+</ng-template>
